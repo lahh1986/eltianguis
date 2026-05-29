@@ -1,5 +1,6 @@
 ---
 import type { Skill } from "../data/skills";
+import { SKILL_TYPES } from "../data/skills";
 import { getCategory } from "../data/categories";
 
 interface Props {
@@ -9,13 +10,19 @@ interface Props {
 const { skill } = Astro.props;
 const cat = getCategory(skill.category);
 const isPlanned = skill.status === "planned";
+const typeMeta = SKILL_TYPES.find((t) => t.value === skill.type);
 ---
 <a
   href={`/s/${skill.slug}`}
-  class="card card-skill group relative no-underline"
+  data-type={skill.type}
+  data-mxlocal={skill.mxLocal ? "true" : "false"}
+  class="skill-card-item card card-skill group relative no-underline"
 >
   <div class="flex items-start justify-between gap-3">
     <div class="flex flex-wrap gap-1.5">
+      {typeMeta && (
+        <span class={`pill pill-type pill-type-${skill.type}`}>{typeMeta.short}</span>
+      )}
       {cat && (
         <span class="pill">{cat.name}</span>
       )}

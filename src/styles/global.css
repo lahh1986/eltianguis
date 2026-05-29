@@ -112,6 +112,42 @@ body {
   background: color-mix(in oklch, var(--color-verified) 6%, var(--color-canvas));
 }
 
+/* ─── Pills por tipo de contribución ─── */
+.pill-type {
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.pill-type-skill {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  background: var(--color-canvas-warm);
+}
+.pill-type-agente {
+  border-color: var(--color-anil);
+  color: var(--color-anil);
+  background: color-mix(in oklch, var(--color-anil) 6%, var(--color-canvas));
+}
+.pill-type-mcp {
+  border-color: var(--color-nopal);
+  color: var(--color-nopal);
+  background: color-mix(in oklch, var(--color-nopal) 6%, var(--color-canvas));
+}
+.pill-type-comando {
+  border-color: #6b2d8f;
+  color: #6b2d8f;
+  background: color-mix(in oklch, #6b2d8f 6%, var(--color-canvas));
+}
+.pill-type-hook {
+  border-color: #b8860b;
+  color: #b8860b;
+  background: color-mix(in oklch, #b8860b 6%, var(--color-canvas));
+}
+.pill-type-bundle {
+  border-color: var(--color-terracota-deep);
+  color: var(--color-terracota-deep);
+  background: color-mix(in oklch, var(--color-terracota-deep) 8%, var(--color-canvas));
+}
+
 /* ─── Botones ─── */
 .btn {
   display: inline-flex;

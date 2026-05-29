@@ -1,0 +1,157 @@
+name: Subir puesto al tianguis
+description: Publica tu skill, agente, MCP, comando, hook o bundle en eltianguis.sistemia.mx
+title: "[Submit] "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Subir un puesto al tianguis
+
+        Llena este formulario para publicar tu contribución. Si traes prisa y usas Claude Code, considera
+        el slash command `/publicar-tianguis` que genera todo automáticamente (próximamente).
+
+        **Antes de empezar:** asegúrate de que tu contribución vive en un repo público de GitHub con README
+        en español (o bilingüe) y licencia clara (MIT o Apache 2.0 recomendado).
+
+  - type: input
+    id: repo
+    attributes:
+      label: URL del repo (GitHub)
+      description: La raíz del repo donde vive tu contribución.
+      placeholder: https://github.com/tuhandle/mi-skill
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Nombre del puesto
+      description: Cómo se va a ver en el tianguis. Mantenlo corto.
+      placeholder: Mi Skill
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: Slug
+      description: Identificador URL-safe (a-z, 0-9, guiones). Será la URL en /s/{slug}.
+      placeholder: mi-skill
+    validations:
+      required: true
+
+  - type: input
+    id: tagline
+    attributes:
+      label: Tagline (1 línea)
+      description: Lo que vende tu puesto. Bajo 140 caracteres.
+      placeholder: Una línea concreta que diga qué hace y para quién.
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción
+      description: 1-2 párrafos explicando qué hace y cuándo usarlo.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Tipo de puesto
+      options:
+        - Skill (CLAUDE.md o folder skills/)
+        - Agente (sub-agente especializado)
+        - MCP (servidor Model Context Protocol)
+        - Comando (slash command custom)
+        - Hook (settings.json hook)
+        - Bundle (combo de varios)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Categoría
+      options:
+        - MX/Latam (CFDI, SAT, Mercado Pago, etc.)
+        - Programación
+        - Marketing
+        - Ventas
+        - Productividad
+        - Investigación
+        - Contenido
+        - Soporte
+    validations:
+      required: true
+
+  - type: input
+    id: install_path
+    attributes:
+      label: Path de instalación
+      description: Carpeta dentro del repo donde vive el código (déjalo vacío si está en la raíz).
+      placeholder: skills/mi-skill
+
+  - type: input
+    id: readme_path
+    attributes:
+      label: Path del README/SKILL doc
+      description: Markdown que se renderiza en la página del puesto. Default — README.md de la raíz.
+      placeholder: skills/mi-skill/SKILL.md
+
+  - type: input
+    id: branch
+    attributes:
+      label: Branch del repo
+      description: Default — main
+      placeholder: main
+
+  - type: input
+    id: tags
+    attributes:
+      label: Tags (separados por coma)
+      description: 3-5 tags concretos. Ej — outreach, whatsapp, ventas
+      placeholder: tag1, tag2, tag3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mx_local
+    attributes:
+      label: ¿Es MX-Local?
+      description: Skills MX-locales tienen prioridad de curaduría y posición destacada.
+      options:
+        - "No"
+        - "Sí — toca realidades locales (CFDI, SAT, INEGI, Mercado Pago, WhatsApp MX, OXXO, etc.)"
+    validations:
+      required: true
+
+  - type: input
+    id: author
+    attributes:
+      label: Tu nombre o handle
+      placeholder: Tu nombre
+    validations:
+      required: true
+
+  - type: input
+    id: author_url
+    attributes:
+      label: URL del autor (opcional)
+      description: Tu GitHub, sitio personal o LinkedIn.
+      placeholder: https://github.com/tuhandle
+
+  - type: checkboxes
+    id: confirms
+    attributes:
+      label: Confirmaciones
+      options:
+        - label: El repo es público y la licencia está clara (MIT/Apache/similar).
+          required: true
+        - label: La doc del puesto está en español o es bilingüe.
+          required: true
+        - label: Probé que el puesto funciona en Claude Code antes de publicarlo.
+          required: true

@@ -1,55 +1,145 @@
 ---
 import Base from "../layouts/Base.astro";
+import { SKILL_TYPES } from "../data/skills";
+import { categories } from "../data/categories";
 ---
 <Base
-  title="Publica tu skill — El Tianguis"
-  description="Cómo subir tu skill, agente o MCP al tianguis. 100% gratis, sin lock-in. Tu skill vive en tu repo de GitHub."
+  title="Publica tu puesto — El Tianguis"
+  description="Cómo subir tu skill, agente, MCP, comando, hook o bundle al tianguis. 100% gratis, sin lock-in. Tu contribución vive en tu repo de GitHub."
 >
   <section class="wrap pt-20 pb-12 max-w-3xl">
     <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota)] mb-3">
       Para creadores
     </div>
     <h1 class="font-display text-5xl sm:text-6xl text-[color:var(--color-ink)] leading-[0.95]">
-      Publica tu skill en el tianguis.
+      Publica tu puesto en el tianguis.
     </h1>
     <p class="mt-5 text-lg text-[color:var(--color-ink-muted)] leading-relaxed">
-      No te cobramos nada. No nos quedamos con tu código. Tu skill vive en tu repo de GitHub; el tianguis nada más lo cataloga y le da visibilidad a la comunidad hispanohablante.
+      No te cobramos nada. No nos quedamos con tu código. Tu contribución vive en tu repo de GitHub; el tianguis nada más la cataloga y le da visibilidad a la comunidad hispanohablante.
+    </p>
+    <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">
+      Puedes publicar 6 tipos de puesto: <strong class="text-[color:var(--color-ink)]">Skill</strong>, <strong class="text-[color:var(--color-ink)]">Agente</strong>, <strong class="text-[color:var(--color-ink)]">MCP</strong>, <strong class="text-[color:var(--color-ink)]">Comando</strong> (slash), <strong class="text-[color:var(--color-ink)]">Hook</strong>, o <strong class="text-[color:var(--color-ink)]">Bundle</strong> (combo de varios).
     </p>
   </section>
 
-  <section class="wrap pb-16 max-w-3xl">
-    <div class="space-y-6">
-      <div class="card">
-        <div class="flex items-baseline gap-4">
-          <div class="font-display text-4xl text-[color:var(--color-terracota)]">1</div>
-          <div>
-            <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Sube tu skill a GitHub</h2>
-            <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
-              Un repo público con README en español, ejemplos de uso, y licencia (MIT o Apache 2.0 recomendado). Si tu skill ya existe en otro repo, también vale.
-            </p>
-          </div>
+  <section class="wrap pb-12 max-w-3xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-4">
+      Elige tu vía
+    </div>
+    <div class="grid gap-4 sm:grid-cols-3">
+      <a
+        href="https://github.com/lahh1986/eltianguis/issues/new?template=subir-puesto.yml"
+        class="card group no-underline flex flex-col gap-2"
+      >
+        <div class="text-[10px] font-mono tracking-[0.14em] uppercase text-[color:var(--color-terracota)]">
+          La más fácil
+        </div>
+        <div class="font-display text-xl text-[color:var(--color-ink)] group-hover:text-[color:var(--color-terracota)]">Formulario</div>
+        <div class="text-sm text-[color:var(--color-ink-muted)]">
+          Form en GitHub. Llenas 10 campos y listo. Sin fork, sin JSON.
+        </div>
+      </a>
+      <a
+        href="#cli"
+        class="card group no-underline flex flex-col gap-2"
+      >
+        <div class="text-[10px] font-mono tracking-[0.14em] uppercase text-[color:var(--color-anil)]">
+          Para Claude Code
+        </div>
+        <div class="font-display text-xl text-[color:var(--color-ink)] group-hover:text-[color:var(--color-terracota)]">Un comando</div>
+        <div class="text-sm text-[color:var(--color-ink-muted)]">
+          <code class="text-xs">gh issue create</code> con el body pre-formado. Tu agente lo manda.
+        </div>
+      </a>
+      <a
+        href="#pr"
+        class="card group no-underline flex flex-col gap-2"
+      >
+        <div class="text-[10px] font-mono tracking-[0.14em] uppercase text-[color:var(--color-nopal)]">
+          Para devs experimentados
+        </div>
+        <div class="font-display text-xl text-[color:var(--color-ink)] group-hover:text-[color:var(--color-terracota)]">Pull Request</div>
+        <div class="text-sm text-[color:var(--color-ink-muted)]">
+          Editas <code class="text-xs">skills.json</code> directo y mandas PR.
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="form" class="wrap pb-16 max-w-3xl">
+    <div class="card">
+      <div class="flex items-baseline gap-4">
+        <div class="font-display text-4xl text-[color:var(--color-terracota)]">1</div>
+        <div class="flex-1">
+          <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Vía formulario (recomendado)</h2>
+          <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
+            La opción de menor fricción. GitHub te muestra un form estructurado con todos los campos. Tú llenas, GitHub crea el issue. Yo reviso y abro el PR al catálogo en tu nombre.
+          </p>
+          <a
+            href="https://github.com/lahh1986/eltianguis/issues/new?template=subir-puesto.yml"
+            class="btn btn-primary mt-4 inline-flex !rounded-lg"
+          >
+            Abrir formulario en GitHub →
+          </a>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="card">
-        <div class="flex items-baseline gap-4">
-          <div class="font-display text-4xl text-[color:var(--color-terracota)]">2</div>
-          <div class="flex-1">
-            <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Abre un PR al catálogo</h2>
-            <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
-              Agrega una entrada a <code class="px-1.5 py-0.5 rounded bg-[color:var(--color-canvas-warm)] text-xs font-mono">src/data/skills.json</code> con tu info. Plantilla:
-            </p>
-            <pre class="mt-4 p-4 rounded-lg bg-[color:var(--color-ink)] text-[color:var(--color-arena)] text-xs overflow-x-auto font-mono leading-relaxed"><code>{`{
+  <section id="cli" class="wrap pb-16 max-w-3xl">
+    <div class="card">
+      <div class="flex items-baseline gap-4">
+        <div class="font-display text-4xl text-[color:var(--color-anil)]">2</div>
+        <div class="flex-1">
+          <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Vía Claude Code (un comando)</h2>
+          <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
+            Si tu agente está construyendo el skill contigo, dile que mande este comando. Lee la metadata de tu repo y arma el issue:
+          </p>
+          <pre class="mt-4 p-4 rounded-lg bg-[color:var(--color-ink)] text-[color:var(--color-arena)] text-xs overflow-x-auto font-mono leading-relaxed"><code>{`# Desde la raíz de tu repo, después de pushear
+gh issue create \\
+  --repo lahh1986/eltianguis \\
+  --title "[Submit] mi-skill" \\
+  --body "$(cat <<'EOF'
+repo: https://github.com/tuhandle/mi-skill
+slug: mi-skill
+type: skill
+category: programacion
+mxLocal: false
+readmePath: README.md
+branch: main
+EOF
+)"`}</code></pre>
+          <p class="mt-3 text-sm text-[color:var(--color-ink-soft)]">
+            En cuanto subamos el slash command <code>/publicar-tianguis</code>, este paso se reduce a una sola palabra dentro de Claude Code.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pr" class="wrap pb-16 max-w-3xl">
+    <div class="card">
+      <div class="flex items-baseline gap-4">
+        <div class="font-display text-4xl text-[color:var(--color-nopal)]">3</div>
+        <div class="flex-1">
+          <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Vía Pull Request directo</h2>
+          <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
+            Para devs que ya saben de qué va. Agregas una entrada a <code class="px-1.5 py-0.5 rounded bg-[color:var(--color-canvas-warm)] text-xs font-mono">src/data/skills.json</code> en <a href="https://github.com/lahh1986/eltianguis" class="text-[color:var(--color-terracota)] underline">lahh1986/eltianguis</a>:
+          </p>
+          <pre class="mt-4 p-4 rounded-lg bg-[color:var(--color-ink)] text-[color:var(--color-arena)] text-xs overflow-x-auto font-mono leading-relaxed"><code>{`{
   "slug": "mi-skill",
+  "type": "skill",
   "name": "Mi Skill",
-  "tagline": "Una línea que vende el skill.",
-  "description": "Qué hace, para quién, ejemplo de uso.",
+  "tagline": "Una línea concreta.",
+  "description": "Qué hace + para quién.",
   "author": "Tu nombre",
   "authorUrl": "https://github.com/tuhandle",
   "category": "programacion",
   "tags": ["tag1", "tag2"],
   "repo": "https://github.com/tuhandle/mi-skill",
   "installPath": "skills/mi-skill",
+  "readmePath": "skills/mi-skill/SKILL.md",
+  "branch": "main",
   "downloads": 0,
   "stars": 0,
   "verified": false,
@@ -57,37 +147,50 @@ import Base from "../layouts/Base.astro";
   "featured": false,
   "addedAt": "2026-05-29"
 }`}</code></pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="flex items-baseline gap-4">
-          <div class="font-display text-4xl text-[color:var(--color-terracota)]">3</div>
-          <div>
-            <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Curaduría básica y al aire</h2>
-            <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
-              Revisamos que el repo funcione, README esté claro, y no haya cosas raras. Si pasa, sale en horas. Skills MX-locales tienen prioridad y posible badge "Verificado" + posición destacada.
-            </p>
-          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="wrap pb-24 max-w-3xl">
-    <div class="p-8 rounded-2xl bg-[color:var(--color-canvas-warm)] border border-[color:var(--color-border)]">
-      <h2 class="font-display text-2xl text-[color:var(--color-ink)]">¿Qué cuenta como skill?</h2>
-      <ul class="mt-4 space-y-2 text-[color:var(--color-ink-muted)]">
-        <li>· Skills de Claude Code (CLAUDE.md o skills/ folder)</li>
-        <li>· Agentes especializados (sub-agents)</li>
-        <li>· Servidores MCP (Model Context Protocol)</li>
-        <li>· Hooks útiles, slash commands, plantillas de prompts</li>
-        <li>· Workflows completos con Claude Code + integraciones</li>
-      </ul>
-      <p class="mt-4 text-sm text-[color:var(--color-ink-soft)]">
-        Idealmente en español o con docs bilingües. Skills 100% inglesas también entran si son útiles para el ecosistema.
-      </p>
+  <section class="wrap pb-16 max-w-3xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-4">
+      Referencia
     </div>
+
+    <details class="card mb-3" open>
+      <summary class="font-display text-xl text-[color:var(--color-ink)] cursor-pointer">Tipos de puesto disponibles</summary>
+      <div class="mt-4 grid gap-2 sm:grid-cols-2 text-sm">
+        {SKILL_TYPES.map((t) => (
+          <div class="flex items-start gap-2">
+            <span class={`pill pill-type pill-type-${t.value}`}>{t.short}</span>
+            <span class="text-[color:var(--color-ink-muted)]">{t.label}</span>
+          </div>
+        ))}
+      </div>
+    </details>
+
+    <details class="card mb-3">
+      <summary class="font-display text-xl text-[color:var(--color-ink)] cursor-pointer">Categorías</summary>
+      <div class="mt-4 grid gap-2 sm:grid-cols-2 text-sm">
+        {categories.map((c) => (
+          <div>
+            <span class={c.featured ? "pill pill-mx" : "pill"}>{c.name}</span>
+            <span class="text-xs text-[color:var(--color-ink-muted)] ml-2">{c.slug}</span>
+          </div>
+        ))}
+      </div>
+    </details>
+
+    <details class="card">
+      <summary class="font-display text-xl text-[color:var(--color-ink)] cursor-pointer">Criterios de curaduría</summary>
+      <ul class="mt-4 space-y-2 text-[color:var(--color-ink-muted)] text-sm">
+        <li>· Repo público con licencia clara (MIT, Apache 2.0, similar)</li>
+        <li>· README o SKILL.md en español, o bilingüe</li>
+        <li>· Probado por el autor antes de publicar</li>
+        <li>· Sin secretos hardcoded, sin .env en el repo</li>
+        <li>· MX-Local tiene prioridad y posible badge "Verificado"</li>
+        <li>· Sin contenido ofensivo, spam o material puramente promocional</li>
+      </ul>
+    </details>
   </section>
 </Base>

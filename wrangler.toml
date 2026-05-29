@@ -1,0 +1,9 @@
+name = "sistemia-tianguis"
+compatibility_date = "2026-05-29"
+
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "tianguis_db"
+database_name = "tianguis-db"
+database_id = "e49eb7da-cfcc-428b-b011-d450729833a5"

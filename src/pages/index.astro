@@ -3,6 +3,8 @@ import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
 import SkillCard from "../components/SkillCard.astro";
+import TypeFilter from "../components/TypeFilter.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import { featuredSkills, mxLocalSkills, newestSkills, skills } from "../data/skills";
 
 const featured = featuredSkills();
@@ -14,8 +16,10 @@ const newest = newestSkills(6);
 
   <CategoryGrid />
 
-  <section id="skills" class="wrap pb-16">
-    <div class="flex items-end justify-between mb-6">
+  <section id="skills" class="pt-6 pb-16">
+    <TypeFilter />
+
+    <div class="wrap mt-8 mb-6 flex items-end justify-between">
       <div>
         <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-2">
           Destacados
@@ -27,7 +31,7 @@ const newest = newestSkills(6);
       </a>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="wrap grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {featured.map((s) => <SkillCard skill={s} />)}
     </div>
   </section>
@@ -71,6 +75,8 @@ const newest = newestSkills(6);
       {newest.map((s) => <SkillCard skill={s} />)}
     </div>
   </section>
+
+  <NewsletterSignup source="home" />
 
   <section class="wrap pb-24">
     <div class="grid gap-8 lg:grid-cols-2 items-center bg-[color:var(--color-ink)] text-[color:var(--color-arena)] rounded-2xl p-10 lg:p-14">

@@ -6,8 +6,20 @@ export interface PaidUpgrade {
   description: string;
 }
 
+export type SkillType = "skill" | "agente" | "mcp" | "comando" | "hook" | "bundle";
+
+export const SKILL_TYPES: { value: SkillType; label: string; short: string }[] = [
+  { value: "skill", label: "Skill", short: "SKILL" },
+  { value: "agente", label: "Agente", short: "AGENTE" },
+  { value: "mcp", label: "MCP", short: "MCP" },
+  { value: "comando", label: "Comando", short: "CMD" },
+  { value: "hook", label: "Hook", short: "HOOK" },
+  { value: "bundle", label: "Bundle", short: "BUNDLE" },
+];
+
 export interface Skill {
   slug: string;
+  type: SkillType;
   name: string;
   tagline: string;
   description: string;
