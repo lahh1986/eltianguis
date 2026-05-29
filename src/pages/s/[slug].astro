@@ -67,6 +67,22 @@ const readme = await fetchReadme(skill);
     <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Qué hace</h2>
     <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">{skill.description}</p>
 
+    {skill.paidUpgrade && (
+      <aside class="mt-10 p-5 rounded-xl border border-[color:var(--color-terracota)] bg-[color:var(--color-canvas-warm)] flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+        <div class="flex-1">
+          <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota)] mb-1.5">
+            {skill.paidUpgrade.label}
+          </div>
+          <div class="text-sm text-[color:var(--color-ink-muted)] leading-relaxed">
+            {skill.paidUpgrade.description}
+          </div>
+        </div>
+        <a href={skill.paidUpgrade.url} class="btn btn-primary whitespace-nowrap">
+          Conseguir →
+        </a>
+      </aside>
+    )}
+
     {readme && (
       <section class="mt-12">
         <div class="flex items-center justify-between mb-4">

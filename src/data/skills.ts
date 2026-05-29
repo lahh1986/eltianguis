@@ -1,5 +1,11 @@
 import raw from "./skills.json";
 
+export interface PaidUpgrade {
+  url: string;
+  label: string;
+  description: string;
+}
+
 export interface Skill {
   slug: string;
   name: string;
@@ -13,6 +19,7 @@ export interface Skill {
   installPath: string | null;
   readmePath?: string;
   branch?: string;
+  paidUpgrade?: PaidUpgrade;
   downloads: number;
   stars: number;
   verified: boolean;

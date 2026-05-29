@@ -10,8 +10,13 @@
     "tags": ["investigación", "copy", "MX-local", "ads"],
     "repo": "https://github.com/lahh1986/sistemia-skills-mx",
     "installPath": "skills/focus-group-mx",
-    "readmePath": "skills/focus-group-mx/SKILL.md",
+    "readmePath": "skills/focus-group-mx/SKILL-LITE.md",
     "branch": "main",
+    "paidUpgrade": {
+      "url": "https://marketing.sistemia.mx",
+      "label": "Versión completa",
+      "description": "19 personas validadas + FGMX-Score con backtest hit-rate 100% + base PROFECO de 10.5M precios + soporte directo"
+    },
     "downloads": 0,
     "stars": 0,
     "verified": true,
