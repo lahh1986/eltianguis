@@ -1,8 +1,10 @@
 import { signToken } from "../_lib/tokens";
+import { sendEmail, welcomeEmail } from "../_lib/email";
 
 interface Env {
   tianguis_db: D1Database;
   TIANGUIS_HMAC_SECRET: string;
+  RESEND_API_KEY?: string;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -61,8 +63,38 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     purpose: "unsub",
     issuedAt: Math.floor(Date.now() / 1000),
   });
+  const unsubUrl = `/unsubscribe?t=${unsubToken}`;
 
-  return json({ ok: true, unsubUrl: `/unsubscribe?t=${unsubToken}` });
+  if (ctx.env.RESEND_API_KEY) {
+    const { subject, html, text } = welcomeEmail(email, unsubUrl);
+    const result = await sendEmail(ctx.env.RESEND_API_KEY, {
+      to: email,
+      subject,
+      html,
+      text,
+      headers: {
+        "List-Unsubscribe": `<https://eltianguis.sistemia.mx${unsubUrl}>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+      },
+      tags: [
+        { name: "type", value: "welcome" },
+        { name: "source", value: source.slice(0, 32) },
+      ],
+    });
+    if (!result.ok) {
+      ctx.waitUntil(
+        ctx.env.tianguis_db
+          .prepare(
+            `UPDATE subscribers SET unsub_reason = ?2 WHERE email = ?1 AND unsubscribed_at IS NULL`
+          )
+          .bind(email, `welcome_email_failed:${result.error}`)
+          .run()
+          .catch(() => undefined)
+      );
+    }
+  }
+
+  return json({ ok: true, unsubUrl });
 };
 
 export const onRequestOptions: PagesFunction = () =>
