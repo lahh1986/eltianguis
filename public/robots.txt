@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eltianguis.sistemia.mx/sitemap-index.xml

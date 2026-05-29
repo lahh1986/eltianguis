@@ -1,0 +1,62 @@
+---
+import type { Skill } from "../data/skills";
+import { getCategory } from "../data/categories";
+
+interface Props {
+  skill: Skill;
+}
+
+const { skill } = Astro.props;
+const cat = getCategory(skill.category);
+const isPlanned = skill.status === "planned";
+---
+<a
+  href={`/s/${skill.slug}`}
+  class="card card-skill group relative no-underline"
+>
+  <div class="flex items-start justify-between gap-3">
+    <div class="flex flex-wrap gap-1.5">
+      {cat && (
+        <span class="pill">{cat.name}</span>
+      )}
+      {skill.mxLocal && (
+        <span class="pill pill-mx">MX-Local</span>
+      )}
+      {skill.verified && (
+        <span class="pill pill-verified">Verificado</span>
+      )}
+    </div>
+    {isPlanned && (
+      <span class="text-[10px] font-mono uppercase tracking-[0.12em] text-[color:var(--color-ink-soft)]">
+        próximamente
+      </span>
+    )}
+  </div>
+
+  <div>
+    <h3 class="font-display text-2xl leading-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-terracota)] transition">
+      {skill.name}
+    </h3>
+    <p class="mt-2 text-sm text-[color:var(--color-ink-muted)] leading-relaxed line-clamp-3">
+      {skill.tagline}
+    </p>
+  </div>
+
+  <div class="mt-auto pt-3 border-t border-[color:var(--color-border)] flex items-center justify-between text-xs">
+    <div class="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
+      <span>por</span>
+      <span class="font-medium text-[color:var(--color-ink-muted)]">{skill.author}</span>
+    </div>
+    <div class="flex items-center gap-3 text-[color:var(--color-ink-soft)] tabular">
+      {skill.stars > 0 && (
+        <span title="Stars en GitHub">★ {skill.stars}</span>
+      )}
+      {skill.downloads > 0 && (
+        <span title="Descargas">↓ {skill.downloads}</span>
+      )}
+      {skill.stars === 0 && skill.downloads === 0 && (
+        <span class="text-[color:var(--color-ink-soft)]">nuevo</span>
+      )}
+    </div>
+  </div>
+</a>

@@ -1,0 +1,47 @@
+---
+const links = [
+  { href: "/", label: "Explorar" },
+  { href: "/c/mx-latam", label: "MX/Latam" },
+  { href: "/publica", label: "Publica tu skill" },
+];
+---
+<header class="sticky top-0 z-40 backdrop-blur-md bg-[color:var(--color-canvas)]/85 border-b border-[color:var(--color-border)]">
+  <div class="wrap flex items-center justify-between py-4">
+    <a href="/" class="flex items-baseline gap-2 group">
+      <span class="font-display text-2xl tracking-tight text-[color:var(--color-ink)]">El Tianguis</span>
+      <span class="hidden sm:inline text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)]">
+        por Sistemia
+      </span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class="px-3 py-2 rounded-md text-sm text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] hover:bg-[color:var(--color-canvas-warm)] transition"
+        >
+          {l.label}
+        </a>
+      ))}
+      <a href="/publica" class="btn btn-primary ml-2 !py-2 !px-4 !text-sm">Subir skill</a>
+    </nav>
+
+    <button
+      class="md:hidden p-2 -mr-2"
+      aria-label="Menú"
+      onclick="document.getElementById('mob-nav').classList.toggle('hidden')"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="mob-nav" class="hidden md:hidden border-t border-[color:var(--color-border)]">
+    <div class="wrap py-3 flex flex-col gap-1">
+      {links.map((l) => (
+        <a href={l.href} class="py-2 text-sm text-[color:var(--color-ink-muted)]">{l.label}</a>
+      ))}
+    </div>
+  </div>
+</header>

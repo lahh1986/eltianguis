@@ -1,0 +1,117 @@
+---
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import CategoryGrid from "../components/CategoryGrid.astro";
+import SkillCard from "../components/SkillCard.astro";
+import { featuredSkills, mxLocalSkills, newestSkills, skills } from "../data/skills";
+
+const featured = featuredSkills();
+const mxLocal = mxLocalSkills().filter((s) => !s.featured);
+const newest = newestSkills(6);
+---
+<Base>
+  <Hero />
+
+  <CategoryGrid />
+
+  <section id="skills" class="wrap pb-16">
+    <div class="flex items-end justify-between mb-6">
+      <div>
+        <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-2">
+          Destacados
+        </div>
+        <h2 class="font-display text-3xl text-[color:var(--color-ink)]">Lo que está moviendo el tianguis</h2>
+      </div>
+      <a href="/c/mx-latam" class="hidden sm:inline text-sm text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-terracota)]">
+        Ver todos →
+      </a>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {featured.map((s) => <SkillCard skill={s} />)}
+    </div>
+  </section>
+
+  <section class="bg-[color:var(--color-canvas-warm)] border-y border-[color:var(--color-border)]">
+    <div class="wrap py-16">
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota)] mb-2">
+            Categoría destacada · MX/Latam
+          </div>
+          <h2 class="font-display text-3xl text-[color:var(--color-ink)] max-w-2xl">
+            Skills que ningún gringo va a construir
+          </h2>
+          <p class="mt-2 max-w-2xl text-[color:var(--color-ink-muted)]">
+            CFDI, SAT, Mercado Pago, INEGI, WhatsApp Cloud MX. El verdadero foso del tianguis.
+          </p>
+        </div>
+        <a href="/c/mx-latam" class="hidden sm:inline text-sm text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-terracota)]">
+          Ver categoría →
+        </a>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {mxLocal.map((s) => <SkillCard skill={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap py-16">
+    <div class="flex items-end justify-between mb-6">
+      <div>
+        <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-2">
+          Recién llegados
+        </div>
+        <h2 class="font-display text-3xl text-[color:var(--color-ink)]">Lo más nuevo</h2>
+      </div>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {newest.map((s) => <SkillCard skill={s} />)}
+    </div>
+  </section>
+
+  <section class="wrap pb-24">
+    <div class="grid gap-8 lg:grid-cols-2 items-center bg-[color:var(--color-ink)] text-[color:var(--color-arena)] rounded-2xl p-10 lg:p-14">
+      <div>
+        <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota-soft)] mb-3">
+          Para creadores
+        </div>
+        <h2 class="font-display text-4xl leading-tight">
+          ¿Hiciste un skill?<br/>Súbelo al tianguis.
+        </h2>
+        <p class="mt-4 text-[color:var(--color-arena)]/70 leading-relaxed max-w-md">
+          No te cobramos nada, no nos quedamos con tu código. Tu skill vive en tu repo de GitHub; nosotros nada más lo catalogamos para que la banda lo encuentre.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="/publica" class="btn btn-primary">Cómo publicar</a>
+          <a href="https://github.com/lahh1986" class="btn btn-ghost !text-[color:var(--color-arena)]">Ver en GitHub →</a>
+        </div>
+      </div>
+      <div class="space-y-4 text-sm">
+        <div class="flex gap-3">
+          <div class="font-display text-3xl text-[color:var(--color-terracota-soft)] w-8">1</div>
+          <div>
+            <div class="font-medium text-[color:var(--color-arena)]">Sube tu skill a GitHub</div>
+            <div class="text-[color:var(--color-arena)]/60">README claro, ejemplos de uso, MIT o Apache.</div>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="font-display text-3xl text-[color:var(--color-terracota-soft)] w-8">2</div>
+          <div>
+            <div class="font-medium text-[color:var(--color-arena)]">Abre un PR al catálogo</div>
+            <div class="text-[color:var(--color-arena)]/60">Una entrada en <code>skills.json</code> con tu info.</div>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="font-display text-3xl text-[color:var(--color-terracota-soft)] w-8">3</div>
+          <div>
+            <div class="font-medium text-[color:var(--color-arena)]">Listo, ya estás en el tianguis</div>
+            <div class="text-[color:var(--color-arena)]/60">Si pasa curaduría básica, sale en horas.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

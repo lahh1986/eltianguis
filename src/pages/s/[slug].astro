@@ -1,0 +1,79 @@
+---
+import Base from "../../layouts/Base.astro";
+import { skills, getSkill } from "../../data/skills";
+import { getCategory } from "../../data/categories";
+
+export function getStaticPaths() {
+  return skills.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const skill = getSkill(slug!)!;
+const cat = getCategory(skill.category);
+const isPlanned = skill.status === "planned";
+const title = `${skill.name} — El Tianguis`;
+---
+<Base title={title} description={skill.tagline}>
+  <article class="wrap pt-16 pb-20 max-w-4xl">
+    <a href="/" class="text-xs text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]">← Volver al tianguis</a>
+
+    <div class="mt-6 flex flex-wrap gap-2">
+      {cat && <a href={`/c/${cat.slug}`} class="pill no-underline">{cat.name}</a>}
+      {skill.mxLocal && <span class="pill pill-mx">MX-Local</span>}
+      {skill.verified && <span class="pill pill-verified">Verificado</span>}
+      {isPlanned && <span class="pill">Próximamente</span>}
+    </div>
+
+    <h1 class="mt-4 font-display text-5xl sm:text-6xl text-[color:var(--color-ink)] leading-[0.95] tracking-tight">
+      {skill.name}
+    </h1>
+    <p class="mt-4 text-xl text-[color:var(--color-ink-muted)] leading-relaxed max-w-2xl">{skill.tagline}</p>
+
+    <div class="mt-6 flex items-center gap-4 text-sm text-[color:var(--color-ink-soft)]">
+      <div>
+        por
+        {skill.authorUrl ? (
+          <a href={skill.authorUrl} class="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-terracota)]">{skill.author}</a>
+        ) : (
+          <span class="text-[color:var(--color-ink-muted)]">{skill.author}</span>
+        )}
+      </div>
+      <span>·</span>
+      <span class="tabular">agregado {skill.addedAt}</span>
+    </div>
+
+    {skill.repo ? (
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={skill.repo} class="btn btn-primary">Ver en GitHub</a>
+        {skill.installPath && (
+          <code class="px-3 py-2 rounded-md bg-[color:var(--color-canvas-warm)] border border-[color:var(--color-border)] text-xs font-mono text-[color:var(--color-ink-muted)] self-center">
+            {skill.repo.replace("https://github.com/", "")}/{skill.installPath}
+          </code>
+        )}
+      </div>
+    ) : isPlanned ? (
+      <div class="mt-8 p-5 rounded-xl bg-[color:var(--color-canvas-warm)] border border-[color:var(--color-border)]">
+        <div class="font-display text-lg text-[color:var(--color-ink)]">Este skill está en la cola.</div>
+        <p class="mt-1 text-sm text-[color:var(--color-ink-muted)]">
+          Si te interesa construirlo o usarlo, escríbenos. Buscamos colaboradores de la comunidad MX/Latam.
+        </p>
+      </div>
+    ) : null}
+
+    <hr class="my-12 border-[color:var(--color-border)]" />
+
+    <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Qué hace</h2>
+    <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">{skill.description}</p>
+
+    {skill.tags.length > 0 && (
+      <>
+        <h2 class="font-display text-2xl text-[color:var(--color-ink)] mt-10">Tags</h2>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {skill.tags.map((t) => (
+            <span class="pill">{t}</span>
+          ))}
+        </div>
+      </>
+    )}
+  </article>
+</Base>

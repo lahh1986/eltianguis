@@ -1,0 +1,45 @@
+---
+const stats = [
+  { label: "Skills curados", value: "6", note: "creciendo" },
+  { label: "100% gratis", value: "$0", note: "siempre" },
+  { label: "Primero en español", value: "MX/Latam", note: "tu mercado" },
+];
+---
+<section class="relative overflow-hidden">
+  <div class="blob" style="top: -120px; left: -100px; width: 380px; height: 380px; background: var(--color-terracota);"></div>
+  <div class="blob" style="top: 100px; right: -120px; width: 320px; height: 320px; background: var(--color-anil); opacity: 0.18;"></div>
+
+  <div class="wrap relative pt-20 pb-16 sm:pt-28 sm:pb-20">
+    <div class="max-w-3xl">
+      <div class="flex items-center gap-2 mb-6 fade-up">
+        <span class="pill pill-mx">Beta abierta · 2026</span>
+        <span class="pill">Hecho en México</span>
+      </div>
+
+      <h1 class="font-display text-[length:var(--text-hero)] leading-[0.95] tracking-tight text-[color:var(--color-ink)] fade-up delay-1">
+        El primer tianguis de
+        <span class="editorial-underline">skills de Claude Code</span>
+        en español.
+      </h1>
+
+      <p class="mt-6 max-w-2xl text-lg sm:text-xl text-[color:var(--color-ink-muted)] leading-relaxed fade-up delay-2">
+        Curado para devs de México y Latinoamérica. Skills, agentes y prompts probados, con énfasis en lo que ningún gringo va a construir: <strong class="text-[color:var(--color-ink)] font-semibold">CFDI, SAT, Mercado Pago, WhatsApp MX, INEGI</strong> y más.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3 fade-up delay-3">
+        <a href="#skills" class="btn btn-primary">Explorar el tianguis</a>
+        <a href="/publica" class="btn btn-secondary">Publicar mi skill</a>
+      </div>
+
+      <div class="mt-10 stats-strip fade-up delay-4">
+        {stats.map((s) => (
+          <div>
+            <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)]">{s.label}</div>
+            <div class="mt-2 font-display text-3xl text-[color:var(--color-ink)] tabular">{s.value}</div>
+            <div class="text-xs text-[color:var(--color-ink-soft)] mt-1">{s.note}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

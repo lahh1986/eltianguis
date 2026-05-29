@@ -1,0 +1,41 @@
+---
+import { categories } from "../data/categories";
+import { skillsByCategory } from "../data/skills";
+---
+<section class="wrap pb-12">
+  <div class="flex items-end justify-between mb-6">
+    <div>
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-2">
+        Por categoría
+      </div>
+      <h2 class="font-display text-3xl text-[color:var(--color-ink)]">Encuentra tu pasillo</h2>
+    </div>
+  </div>
+
+  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    {categories.map((cat) => {
+      const count = skillsByCategory(cat.slug).length;
+      const featured = cat.featured;
+      return (
+        <a
+          href={`/c/${cat.slug}`}
+          class={`group p-5 rounded-xl border transition no-underline flex flex-col gap-1.5 ${
+            featured
+              ? "border-[color:var(--color-terracota)] bg-[color:var(--color-canvas-warm)] hover:bg-[color:var(--color-arena)]"
+              : "border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-border-strong)]"
+          }`}
+        >
+          <div class="flex items-center justify-between">
+            <div class={`font-display text-lg ${featured ? "text-[color:var(--color-terracota)]" : "text-[color:var(--color-ink)]"}`}>
+              {cat.name}
+            </div>
+            <div class="text-xs tabular text-[color:var(--color-ink-soft)]">{count}</div>
+          </div>
+          <div class="text-xs text-[color:var(--color-ink-muted)] leading-relaxed line-clamp-2">
+            {cat.description}
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</section>

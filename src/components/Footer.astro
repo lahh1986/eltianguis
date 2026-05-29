@@ -1,0 +1,48 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-[color:var(--color-border)] mt-24 bg-[color:var(--color-canvas-warm)]">
+  <div class="wrap py-12 grid gap-10 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <div class="flex items-baseline gap-2">
+        <span class="font-display text-2xl text-[color:var(--color-ink)]">El Tianguis</span>
+        <span class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)]">
+          por Sistemia
+        </span>
+      </div>
+      <p class="mt-3 max-w-md text-sm text-[color:var(--color-ink-muted)] leading-relaxed">
+        El primer tianguis de skills para Claude Code en español. Curado para devs de México y Latinoamérica.
+        100% gratis, sin paywalls, sin almacenamiento centralizado — cada skill vive en su repo.
+      </p>
+    </div>
+
+    <div>
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+        Explorar
+      </div>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/" class="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]">Todos los skills</a></li>
+        <li><a href="/c/mx-latam" class="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]">MX/Latam</a></li>
+        <li><a href="/c/programacion" class="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]">Programación</a></li>
+        <li><a href="/c/marketing" class="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]">Marketing</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+        Comunidad
+      </div>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/publica" class="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]">Publica tu skill</a></li>
+        <li><a href="https://sistemia.mx" class="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]">Sistemia.mx</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-[color:var(--color-border)]">
+    <div class="wrap py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[color:var(--color-ink-soft)]">
+      <div>© {year} Sistemia. Hecho en México, abierto a Latinoamérica.</div>
+      <div class="font-mono tracking-[0.12em] uppercase">v0.1 · beta abierta</div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,93 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base
+  title="Publica tu skill — El Tianguis"
+  description="Cómo subir tu skill, agente o MCP al tianguis. 100% gratis, sin lock-in. Tu skill vive en tu repo de GitHub."
+>
+  <section class="wrap pt-20 pb-12 max-w-3xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota)] mb-3">
+      Para creadores
+    </div>
+    <h1 class="font-display text-5xl sm:text-6xl text-[color:var(--color-ink)] leading-[0.95]">
+      Publica tu skill en el tianguis.
+    </h1>
+    <p class="mt-5 text-lg text-[color:var(--color-ink-muted)] leading-relaxed">
+      No te cobramos nada. No nos quedamos con tu código. Tu skill vive en tu repo de GitHub; el tianguis nada más lo cataloga y le da visibilidad a la comunidad hispanohablante.
+    </p>
+  </section>
+
+  <section class="wrap pb-16 max-w-3xl">
+    <div class="space-y-6">
+      <div class="card">
+        <div class="flex items-baseline gap-4">
+          <div class="font-display text-4xl text-[color:var(--color-terracota)]">1</div>
+          <div>
+            <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Sube tu skill a GitHub</h2>
+            <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
+              Un repo público con README en español, ejemplos de uso, y licencia (MIT o Apache 2.0 recomendado). Si tu skill ya existe en otro repo, también vale.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="flex items-baseline gap-4">
+          <div class="font-display text-4xl text-[color:var(--color-terracota)]">2</div>
+          <div class="flex-1">
+            <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Abre un PR al catálogo</h2>
+            <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
+              Agrega una entrada a <code class="px-1.5 py-0.5 rounded bg-[color:var(--color-canvas-warm)] text-xs font-mono">src/data/skills.json</code> con tu info. Plantilla:
+            </p>
+            <pre class="mt-4 p-4 rounded-lg bg-[color:var(--color-ink)] text-[color:var(--color-arena)] text-xs overflow-x-auto font-mono leading-relaxed"><code>{`{
+  "slug": "mi-skill",
+  "name": "Mi Skill",
+  "tagline": "Una línea que vende el skill.",
+  "description": "Qué hace, para quién, ejemplo de uso.",
+  "author": "Tu nombre",
+  "authorUrl": "https://github.com/tuhandle",
+  "category": "programacion",
+  "tags": ["tag1", "tag2"],
+  "repo": "https://github.com/tuhandle/mi-skill",
+  "installPath": "skills/mi-skill",
+  "downloads": 0,
+  "stars": 0,
+  "verified": false,
+  "mxLocal": false,
+  "featured": false,
+  "addedAt": "2026-05-29"
+}`}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="flex items-baseline gap-4">
+          <div class="font-display text-4xl text-[color:var(--color-terracota)]">3</div>
+          <div>
+            <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Curaduría básica y al aire</h2>
+            <p class="mt-2 text-[color:var(--color-ink-muted)] leading-relaxed">
+              Revisamos que el repo funcione, README esté claro, y no haya cosas raras. Si pasa, sale en horas. Skills MX-locales tienen prioridad y posible badge "Verificado" + posición destacada.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap pb-24 max-w-3xl">
+    <div class="p-8 rounded-2xl bg-[color:var(--color-canvas-warm)] border border-[color:var(--color-border)]">
+      <h2 class="font-display text-2xl text-[color:var(--color-ink)]">¿Qué cuenta como skill?</h2>
+      <ul class="mt-4 space-y-2 text-[color:var(--color-ink-muted)]">
+        <li>· Skills de Claude Code (CLAUDE.md o skills/ folder)</li>
+        <li>· Agentes especializados (sub-agents)</li>
+        <li>· Servidores MCP (Model Context Protocol)</li>
+        <li>· Hooks útiles, slash commands, plantillas de prompts</li>
+        <li>· Workflows completos con Claude Code + integraciones</li>
+      </ul>
+      <p class="mt-4 text-sm text-[color:var(--color-ink-soft)]">
+        Idealmente en español o con docs bilingües. Skills 100% inglesas también entran si son útiles para el ecosistema.
+      </p>
+    </div>
+  </section>
+</Base>
