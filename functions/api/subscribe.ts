@@ -1,5 +1,8 @@
+import { signToken } from "../_lib/tokens";
+
 interface Env {
   tianguis_db: D1Database;
+  TIANGUIS_HMAC_SECRET: string;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -42,7 +45,10 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       .prepare(
         `INSERT INTO subscribers (email, source, ua_hash, ip_hash)
          VALUES (?1, ?2, ?3, ?4)
-         ON CONFLICT(email) DO UPDATE SET source = excluded.source`
+         ON CONFLICT(email) DO UPDATE SET
+           source = excluded.source,
+           unsubscribed_at = NULL,
+           unsub_reason = NULL`
       )
       .bind(email, source, uaHash, ipHash)
       .run();
@@ -50,7 +56,13 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     return json({ ok: false, error: "db_error" }, 500);
   }
 
-  return json({ ok: true });
+  const unsubToken = await signToken(ctx.env.TIANGUIS_HMAC_SECRET, {
+    email,
+    purpose: "unsub",
+    issuedAt: Math.floor(Date.now() / 1000),
+  });
+
+  return json({ ok: true, unsubUrl: `/unsubscribe?t=${unsubToken}` });
 };
 
 export const onRequestOptions: PagesFunction = () =>

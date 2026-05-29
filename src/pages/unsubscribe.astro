@@ -1,0 +1,155 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base
+  title="Darse de baja — El Tianguis"
+  description="Confirma que ya no quieres recibir el boletín del tianguis."
+  noindex={true}
+>
+  <section class="wrap py-20 max-w-2xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+      Boletín del tianguis
+    </div>
+
+    <div data-unsub-state="initial">
+      <h1 class="font-display text-4xl sm:text-5xl text-[color:var(--color-ink)] leading-tight">
+        ¿Te quieres dar de baja?
+      </h1>
+      <p class="mt-4 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Después de confirmar, dejamos de mandarte el boletín. Tu correo queda marcado como dado de baja en nuestra base — no se borra, para no volver a contactarte por error si alguien sube tu email a una lista distinta.
+      </p>
+
+      <details class="mt-6">
+        <summary class="text-sm text-[color:var(--color-ink-soft)] cursor-pointer hover:text-[color:var(--color-ink)]">
+          ¿Por qué te vas? (opcional, nos ayuda)
+        </summary>
+        <textarea
+          id="unsub-reason"
+          rows="3"
+          maxlength="240"
+          placeholder="Demasiados correos, contenido no relevante, ya no uso Claude Code..."
+          class="mt-3 w-full px-3 py-2 rounded-lg border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-sm focus:outline-none focus:border-[color:var(--color-terracota)]"
+        ></textarea>
+      </details>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        <button id="confirm-unsub" type="button" class="btn btn-primary">
+          Sí, dame de baja
+        </button>
+        <a href="/" class="btn btn-secondary">
+          Cancelar
+        </a>
+      </div>
+    </div>
+
+    <div data-unsub-state="done" class="hidden">
+      <h1 class="font-display text-4xl sm:text-5xl text-[color:var(--color-ink)] leading-tight">
+        Listo. Ya no te llegamos.
+      </h1>
+      <p class="mt-4 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Sentimos verte ir. Si fue por error o cambias de opinión, puedes volver a apuntarte cuando quieras desde el home.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/" class="btn btn-primary">Volver al tianguis</a>
+        <button id="undo-unsub" type="button" class="btn btn-ghost">
+          Espera, regrésame
+        </button>
+      </div>
+    </div>
+
+    <div data-unsub-state="error" class="hidden">
+      <h1 class="font-display text-4xl sm:text-5xl text-[color:var(--color-ink)] leading-tight">
+        Este link no funcionó.
+      </h1>
+      <p class="mt-4 text-[color:var(--color-ink-muted)] leading-relaxed">
+        El token de baja no es válido, está corrupto, o el correo no estaba en nuestra base. Si crees que es error nuestro, escríbenos a
+        <a href="mailto:hola@sistemia.mx" class="text-[color:var(--color-terracota)] underline">hola@sistemia.mx</a>.
+      </p>
+      <a href="/" class="btn btn-secondary mt-6">Volver al tianguis</a>
+    </div>
+
+    <div data-unsub-state="missing" class="hidden">
+      <h1 class="font-display text-4xl sm:text-5xl text-[color:var(--color-ink)] leading-tight">
+        Falta tu token.
+      </h1>
+      <p class="mt-4 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Para darte de baja, usa el link que viene al final de los correos del boletín. Si no tienes el link a la mano, escríbenos a
+        <a href="mailto:hola@sistemia.mx" class="text-[color:var(--color-terracota)] underline">hola@sistemia.mx</a> y te bajamos manual.
+      </p>
+      <a href="/" class="btn btn-secondary mt-6">Volver al tianguis</a>
+    </div>
+  </section>
+
+  <script>
+    function setState(name: "initial" | "done" | "error" | "missing") {
+      document.querySelectorAll<HTMLElement>("[data-unsub-state]").forEach((el) => {
+        el.classList.toggle("hidden", el.dataset.unsubState !== name);
+      });
+    }
+
+    function getToken(): string | null {
+      const url = new URL(window.location.href);
+      return url.searchParams.get("t");
+    }
+
+    function bind() {
+      const token = getToken();
+      if (!token) {
+        setState("missing");
+        return;
+      }
+
+      const confirmBtn = document.getElementById("confirm-unsub") as HTMLButtonElement | null;
+      const undoBtn = document.getElementById("undo-unsub") as HTMLButtonElement | null;
+      const reasonEl = document.getElementById("unsub-reason") as HTMLTextAreaElement | null;
+
+      confirmBtn?.addEventListener("click", async () => {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Procesando…";
+        try {
+          const res = await fetch("/api/unsubscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token, reason: reasonEl?.value ?? "" }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.ok) {
+            setState("done");
+          } else {
+            setState("error");
+          }
+        } catch {
+          setState("error");
+        }
+      });
+
+      undoBtn?.addEventListener("click", async () => {
+        undoBtn.disabled = true;
+        undoBtn.textContent = "Reactivando…";
+        try {
+          const res = await fetch("/api/resubscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.ok) {
+            undoBtn.textContent = "✓ Estás de vuelta";
+          } else {
+            undoBtn.textContent = "No pudimos reactivar";
+            undoBtn.disabled = false;
+          }
+        } catch {
+          undoBtn.textContent = "Sin conexión";
+          undoBtn.disabled = false;
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bind);
+    } else {
+      bind();
+    }
+  </script>
+</Base>
