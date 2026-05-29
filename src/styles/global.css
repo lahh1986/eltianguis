@@ -205,6 +205,114 @@ body {
   pointer-events: none;
 }
 
+/* ─── Prose para markdown renderizado ─── */
+.prose-tianguis {
+  color: var(--color-ink-muted);
+  font-size: 0.975rem;
+  line-height: 1.7;
+}
+.prose-tianguis h1,
+.prose-tianguis h2,
+.prose-tianguis h3,
+.prose-tianguis h4 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.prose-tianguis h1 { font-size: 2.25rem; margin-top: 2rem; margin-bottom: 1rem; }
+.prose-tianguis h2 {
+  font-size: 1.625rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.prose-tianguis h3 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.5rem; }
+.prose-tianguis h4 { font-size: 1.05rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+.prose-tianguis p { margin-bottom: 1.1rem; }
+.prose-tianguis a {
+  color: var(--color-terracota);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--color-terracota) 40%, transparent);
+  text-underline-offset: 2px;
+}
+.prose-tianguis a:hover { text-decoration-color: var(--color-terracota); }
+.prose-tianguis strong { color: var(--color-ink); font-weight: 600; }
+.prose-tianguis em { font-style: italic; }
+.prose-tianguis ul,
+.prose-tianguis ol {
+  margin: 1rem 0 1.3rem 1.5rem;
+}
+.prose-tianguis ul { list-style: disc; }
+.prose-tianguis ol { list-style: decimal; }
+.prose-tianguis li { margin-bottom: 0.4rem; }
+.prose-tianguis li > ul,
+.prose-tianguis li > ol { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+.prose-tianguis blockquote {
+  border-left: 3px solid var(--color-terracota);
+  padding-left: 1rem;
+  margin: 1.25rem 0;
+  color: var(--color-ink-soft);
+  font-style: italic;
+}
+.prose-tianguis code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--color-canvas-warm);
+  color: var(--color-terracota-deep);
+}
+.prose-tianguis pre {
+  background: var(--color-ink);
+  color: var(--color-arena);
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.prose-tianguis pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+.prose-tianguis hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
+.prose-tianguis table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+.prose-tianguis th,
+.prose-tianguis td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+.prose-tianguis th {
+  font-weight: 600;
+  color: var(--color-ink);
+  background: var(--color-canvas-warm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.prose-tianguis img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
 /* ─── Strip de stats ─── */
 .stats-strip {
   display: grid;

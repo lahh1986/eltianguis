@@ -10,6 +10,8 @@
     "tags": ["investigación", "copy", "MX-local", "ads"],
     "repo": "https://github.com/lahh1986/sistemia-skills-mx",
     "installPath": "skills/focus-group-mx",
+    "readmePath": "skills/focus-group-mx/SKILL.md",
+    "branch": "main",
     "downloads": 0,
     "stars": 0,
     "verified": true,

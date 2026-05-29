@@ -11,6 +11,8 @@ export interface Skill {
   tags: string[];
   repo: string | null;
   installPath: string | null;
+  readmePath?: string;
+  branch?: string;
   downloads: number;
   stars: number;
   verified: boolean;
