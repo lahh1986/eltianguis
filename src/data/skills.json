@@ -37,8 +37,13 @@
     "tags": ["PROFECO", "precios", "duckdb", "MX-local", "retail"],
     "repo": "https://github.com/lahh1986/sistemia-skills-mx",
     "installPath": "skills/precios-mx",
-    "readmePath": "skills/precios-mx/SKILL.md",
+    "readmePath": "skills/precios-mx/SKILL-LITE.md",
     "branch": "main",
+    "paidUpgrade": {
+      "url": "https://wa.me/525529477307?text=Hola%2C%20me%20interesa%20acceso%20completo%20a%20precios-mx%20%E2%80%94%20vengo%20del%20tianguis.",
+      "label": "Acceso completo · 10.5M precios",
+      "description": "Base precios.duckdb consolidada (916 MB, 10.5M registros PROFECO 2024-2026) — download o servicio hosted con actualización semanal y soporte directo."
+    },
     "downloads": 0,
     "stars": 0,
     "verified": true,
@@ -79,8 +84,13 @@
     "tags": ["CONAPO", "demografía", "market sizing", "MX-local", "duckdb"],
     "repo": "https://github.com/lahh1986/sistemia-skills-mx",
     "installPath": "skills/demografia-mx",
-    "readmePath": "skills/demografia-mx/SKILL.md",
+    "readmePath": "skills/demografia-mx/SKILL-LITE.md",
     "branch": "main",
+    "paidUpgrade": {
+      "url": "https://wa.me/525529477307?text=Hola%2C%20me%20interesa%20acceso%20completo%20a%20demografia-mx%20%E2%80%94%20vengo%20del%20tianguis.",
+      "label": "Acceso completo · CONAPO 1950-2070",
+      "description": "Base demografia.duckdb (24 MB, ~5.9M registros, 121 años × 33 entidades × edades simples × sexos) — download o servicio hosted con análisis a la medida."
+    },
     "downloads": 0,
     "stars": 0,
     "verified": true,
@@ -100,8 +110,13 @@
     "tags": ["market sizing", "viabilidad", "MX-local", "negocio", "expansión"],
     "repo": "https://github.com/lahh1986/sistemia-skills-mx",
     "installPath": "skills/mercado-local-mx",
-    "readmePath": "skills/mercado-local-mx/SKILL.md",
+    "readmePath": "skills/mercado-local-mx/SKILL-LITE.md",
     "branch": "main",
+    "paidUpgrade": {
+      "url": "https://wa.me/525529477307?text=Hola%2C%20me%20interesa%20acceso%20completo%20a%20mercado-local-mx%20%E2%80%94%20vengo%20del%20tianguis.",
+      "label": "Bundle completo + análisis a la medida",
+      "description": "Bundle de 4 skills con DBs comerciales + opción de análisis llave en mano (tú nos das giro y ubicación, nosotros entregamos el dossier de viabilidad)."
+    },
     "downloads": 0,
     "stars": 0,
     "verified": true,
@@ -142,8 +157,13 @@
     "tags": ["SAT", "PyME", "compliance", "MX-local", "legal"],
     "repo": "https://github.com/lahh1986/sistemia-skills-mx",
     "installPath": "skills/legal-pyme-mx",
-    "readmePath": "skills/legal-pyme-mx/SKILL.md",
+    "readmePath": "skills/legal-pyme-mx/SKILL-LITE.md",
     "branch": "main",
+    "paidUpgrade": {
+      "url": "https://wa.me/525529477307?text=Hola%2C%20me%20interesa%20acceso%20completo%20a%20legal-pyme-mx%20%E2%80%94%20vengo%20del%20tianguis.",
+      "label": "Corpus legal completo + auditoría",
+      "description": "Corpus legal MX (~120 MB: SAT/INAI/STPS/Diputados/RENAPO) + plantillas Aviso de Privacidad reales + auditoría legal de tu PyME con plan de acción."
+    },
     "downloads": 0,
     "stars": 0,
     "verified": true,
