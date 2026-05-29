@@ -1,0 +1,15 @@
+name = "tianguis-backup"
+main = "src/index.ts"
+compatibility_date = "2026-05-29"
+
+[triggers]
+crons = ["0 9 * * *"]
+
+[[d1_databases]]
+binding = "tianguis_db"
+database_name = "tianguis-db"
+database_id = "e49eb7da-cfcc-428b-b011-d450729833a5"
+
+[[r2_buckets]]
+binding = "tianguis_backups"
+bucket_name = "tianguis-backups"
