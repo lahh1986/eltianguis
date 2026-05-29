@@ -1,0 +1,395 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base
+  title="Admin — El Tianguis"
+  description="Panel de administración interno."
+  noindex={true}
+>
+  <section class="wrap py-12 max-w-5xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-2">
+      Interno · Sistemia
+    </div>
+    <h1 class="font-display text-4xl text-[color:var(--color-ink)]">Admin — El Tianguis</h1>
+
+    <div data-admin-state="locked" class="mt-10 max-w-md">
+      <h2 class="font-display text-xl text-[color:var(--color-ink)]">Acceso</h2>
+      <p class="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+        Pega tu admin key. Se queda solo en este browser (sessionStorage).
+      </p>
+      <div class="mt-4 flex gap-2">
+        <input
+          id="admin-key-input"
+          type="password"
+          autocomplete="off"
+          placeholder="Admin key"
+          class="flex-1 px-3 py-2 rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-sm font-mono"
+        />
+        <button id="admin-unlock" type="button" class="btn btn-primary !py-2 !px-4 !text-sm !rounded-md">
+          Entrar
+        </button>
+      </div>
+      <div id="admin-key-error" class="mt-2 text-xs text-[color:var(--color-terracota)] min-h-[1rem]"></div>
+    </div>
+
+    <div data-admin-state="unlocked" class="hidden">
+      <div class="mt-10 flex items-center gap-3">
+        <button data-tab="dashboard" class="admin-tab admin-tab-active">Dashboard</button>
+        <button data-tab="compose" class="admin-tab">Componer</button>
+        <button data-tab="history" class="admin-tab">Envíos pasados</button>
+        <button id="admin-logout" type="button" class="ml-auto btn btn-ghost !text-xs">Salir</button>
+      </div>
+
+      <section data-panel="dashboard" class="mt-8">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="card">
+            <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)]">Activos</div>
+            <div class="mt-1 editorial-number text-5xl text-[color:var(--color-ink)]" data-stat="active">—</div>
+          </div>
+          <div class="card">
+            <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)]">Dados de baja</div>
+            <div class="mt-1 editorial-number text-5xl text-[color:var(--color-ink-soft)]" data-stat="unsubscribed">—</div>
+          </div>
+          <div class="card">
+            <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)]">Total histórico</div>
+            <div class="mt-1 editorial-number text-5xl text-[color:var(--color-ink-muted)]" data-stat="total">—</div>
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <div class="card">
+            <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+              Top sources (activos)
+            </div>
+            <div data-list="sources" class="text-sm text-[color:var(--color-ink-muted)]">—</div>
+          </div>
+          <div class="card">
+            <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+              Últimos 10 suscriptores
+            </div>
+            <div data-list="recent" class="text-sm text-[color:var(--color-ink-muted)]">—</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-panel="compose" class="hidden mt-8">
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="card">
+            <label class="block text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-2">Asunto</label>
+            <input
+              id="compose-subject"
+              type="text"
+              maxlength="160"
+              placeholder="Boletín #X — algo concreto"
+              class="w-full px-3 py-2 rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-sm"
+            />
+
+            <label class="block text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mt-5 mb-2">
+              Cuerpo (markdown)
+            </label>
+            <textarea
+              id="compose-body"
+              rows="16"
+              placeholder={`## Hola\n\nEsta semana llegaron al tianguis:\n\n- [skill1](https://...)\n- [skill2](https://...)\n\nUn abrazo,\nLuis`}
+              class="w-full px-3 py-3 rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-sm font-mono leading-relaxed"
+            ></textarea>
+
+            <div class="mt-4 flex flex-wrap gap-2 items-center">
+              <button id="btn-preview" type="button" class="btn btn-secondary !py-2 !px-4 !text-sm">
+                Vista previa
+              </button>
+              <input
+                id="test-email"
+                type="email"
+                placeholder="tu@correo.mx (test)"
+                class="px-3 py-2 rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-sm flex-1 min-w-[180px]"
+              />
+              <button id="btn-test-send" type="button" class="btn btn-secondary !py-2 !px-4 !text-sm">
+                Mandar solo a test
+              </button>
+              <button id="btn-broadcast" type="button" class="btn btn-primary !py-2 !px-4 !text-sm">
+                Mandar a TODOS los activos
+              </button>
+            </div>
+            <div id="compose-msg" class="mt-3 text-sm text-[color:var(--color-ink-muted)] min-h-[1.25rem]"></div>
+          </div>
+
+          <div class="card">
+            <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-2">
+              Vista previa
+            </div>
+            <iframe
+              id="preview-iframe"
+              class="w-full h-[640px] border border-[color:var(--color-border)] rounded-lg bg-white"
+              sandbox=""
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section data-panel="history" class="hidden mt-8">
+        <div class="card overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] border-b border-[color:var(--color-border)]">
+                <th class="py-2 pr-3">Fecha</th>
+                <th class="py-2 pr-3">Asunto</th>
+                <th class="py-2 pr-3 text-right">A</th>
+                <th class="py-2 pr-3 text-right">OK</th>
+                <th class="py-2 pr-3 text-right">Falló</th>
+                <th class="py-2 pr-3">ms</th>
+                <th class="py-2 pr-3">Tipo</th>
+              </tr>
+            </thead>
+            <tbody data-broadcasts-body>
+              <tr><td colspan="7" class="py-4 text-center text-[color:var(--color-ink-soft)]">Cargando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <style>
+    .admin-tab {
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid var(--color-border-strong);
+      background: var(--color-surface);
+      color: var(--color-ink-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+    .admin-tab:hover { border-color: var(--color-ink); color: var(--color-ink); }
+    .admin-tab-active {
+      background: var(--color-ink);
+      border-color: var(--color-ink);
+      color: var(--color-arena);
+    }
+  </style>
+
+  <script>
+    const STORE_KEY = "tianguis_admin_key";
+
+    function getKey(): string | null { return sessionStorage.getItem(STORE_KEY); }
+    function setKey(k: string) { sessionStorage.setItem(STORE_KEY, k); }
+    function clearKey() { sessionStorage.removeItem(STORE_KEY); }
+
+    function setState(name: "locked" | "unlocked") {
+      document.querySelectorAll<HTMLElement>("[data-admin-state]").forEach((el) => {
+        el.classList.toggle("hidden", el.dataset.adminState !== name);
+      });
+    }
+
+    function setTab(tab: string) {
+      document.querySelectorAll<HTMLElement>(".admin-tab").forEach((el) => {
+        el.classList.toggle("admin-tab-active", el.dataset.tab === tab);
+      });
+      document.querySelectorAll<HTMLElement>("[data-panel]").forEach((el) => {
+        el.classList.toggle("hidden", el.dataset.panel !== tab);
+      });
+      if (tab === "history") loadBroadcasts();
+    }
+
+    async function api(path: string, init: RequestInit = {}) {
+      const key = getKey();
+      if (!key) throw new Error("no_key");
+      const res = await fetch(path, {
+        ...init,
+        headers: {
+          ...(init.headers ?? {}),
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 401) {
+        clearKey();
+        setState("locked");
+        throw new Error("unauthorized");
+      }
+      return res.json();
+    }
+
+    async function loadStats() {
+      try {
+        const d = await api("/api/admin/stats");
+        if (!d.ok) return;
+        document.querySelector('[data-stat="active"]')!.textContent = String(d.totals?.active ?? 0);
+        document.querySelector('[data-stat="unsubscribed"]')!.textContent = String(d.totals?.unsubscribed ?? 0);
+        document.querySelector('[data-stat="total"]')!.textContent = String(d.totals?.total ?? 0);
+
+        const sources = d.sources ?? [];
+        const srcEl = document.querySelector('[data-list="sources"]')!;
+        srcEl.innerHTML = sources.length === 0
+          ? '<div class="text-[color:var(--color-ink-soft)]">Aún sin datos.</div>'
+          : sources.map((s: any) => `
+              <div class="flex justify-between py-1 border-b border-[color:var(--color-border)] last:border-0">
+                <span class="font-mono text-xs">${escapeHtml(s.source)}</span>
+                <span class="tabular">${s.n}</span>
+              </div>`).join("");
+
+        const recent = d.recent ?? [];
+        const rEl = document.querySelector('[data-list="recent"]')!;
+        rEl.innerHTML = recent.length === 0
+          ? '<div class="text-[color:var(--color-ink-soft)]">Aún sin datos.</div>'
+          : recent.map((r: any) => `
+              <div class="flex justify-between py-1 border-b border-[color:var(--color-border)] last:border-0 gap-3">
+                <span class="truncate">${escapeHtml(r.email)}</span>
+                <span class="text-xs text-[color:var(--color-ink-soft)] whitespace-nowrap">${timeAgo(r.created_at)}</span>
+              </div>`).join("");
+      } catch (e) { /* handled */ }
+    }
+
+    async function loadBroadcasts() {
+      const tbody = document.querySelector("[data-broadcasts-body]");
+      if (!tbody) return;
+      try {
+        const d = await api("/api/admin/broadcasts");
+        if (!d.ok) return;
+        const rows = d.broadcasts ?? [];
+        tbody.innerHTML = rows.length === 0
+          ? '<tr><td colspan="7" class="py-4 text-center text-[color:var(--color-ink-soft)]">Sin envíos todavía.</td></tr>'
+          : rows.map((b: any) => `
+              <tr class="border-b border-[color:var(--color-border)] last:border-0">
+                <td class="py-2 pr-3 text-xs whitespace-nowrap">${new Date(b.sent_at * 1000).toLocaleString("es-MX")}</td>
+                <td class="py-2 pr-3">${escapeHtml(b.subject)}</td>
+                <td class="py-2 pr-3 tabular text-right">${b.recipients}</td>
+                <td class="py-2 pr-3 tabular text-right text-[color:var(--color-verified)]">${b.succeeded}</td>
+                <td class="py-2 pr-3 tabular text-right ${b.failed > 0 ? 'text-[color:var(--color-terracota)]' : ''}">${b.failed}</td>
+                <td class="py-2 pr-3 tabular text-xs text-[color:var(--color-ink-soft)]">${b.duration_ms}</td>
+                <td class="py-2 pr-3 text-xs">${b.test_only ? '<span class="pill">test</span>' : '<span class="pill pill-mx">broadcast</span>'}</td>
+              </tr>`).join("");
+      } catch (e) { /* handled */ }
+    }
+
+    async function preview() {
+      const subject = (document.getElementById("compose-subject") as HTMLInputElement).value;
+      const bodyMd = (document.getElementById("compose-body") as HTMLTextAreaElement).value;
+      const testEmail = (document.getElementById("test-email") as HTMLInputElement).value || "preview@eltianguis.mx";
+      const msgEl = document.getElementById("compose-msg")!;
+      try {
+        const d = await api("/api/admin/preview", {
+          method: "POST",
+          body: JSON.stringify({ subject, bodyMd, sampleEmail: testEmail }),
+        });
+        if (!d.ok) { msgEl.textContent = `Error: ${d.error}`; return; }
+        const iframe = document.getElementById("preview-iframe") as HTMLIFrameElement;
+        iframe.srcdoc = d.html;
+        msgEl.textContent = "Preview actualizado.";
+      } catch (e) { msgEl.textContent = "Error al generar preview."; }
+    }
+
+    async function sendBroadcast(opts: { test: boolean }) {
+      const subject = (document.getElementById("compose-subject") as HTMLInputElement).value;
+      const bodyMd = (document.getElementById("compose-body") as HTMLTextAreaElement).value;
+      const testEmail = (document.getElementById("test-email") as HTMLInputElement).value;
+      const msgEl = document.getElementById("compose-msg")!;
+
+      if (!subject.trim()) { msgEl.textContent = "Falta el asunto."; return; }
+      if (!bodyMd.trim()) { msgEl.textContent = "Falta el cuerpo."; return; }
+      if (opts.test && !testEmail.trim()) { msgEl.textContent = "Para test, pon un correo."; return; }
+
+      if (!opts.test) {
+        const ok = confirm(`Vas a mandar este boletín a TODOS los suscriptores activos. ¿Seguro?\n\nAsunto: ${subject}`);
+        if (!ok) return;
+      }
+
+      msgEl.textContent = "Enviando…";
+      try {
+        const d = await api("/api/admin/send", {
+          method: "POST",
+          body: JSON.stringify({
+            subject,
+            bodyMd,
+            testEmail: opts.test ? testEmail : "",
+          }),
+        });
+        if (!d.ok) {
+          msgEl.textContent = `Error: ${d.error}`;
+          return;
+        }
+        msgEl.textContent = `✓ Enviado a ${d.recipients} (${d.succeeded} OK, ${d.failed} falló, ${d.duration_ms}ms)`;
+        if (!opts.test) loadStats();
+      } catch (e) {
+        msgEl.textContent = "Error al enviar.";
+      }
+    }
+
+    function escapeHtml(s: string): string {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function timeAgo(ts: number): string {
+      const now = Math.floor(Date.now() / 1000);
+      const d = now - ts;
+      if (d < 60) return `hace ${d}s`;
+      if (d < 3600) return `hace ${Math.floor(d / 60)}m`;
+      if (d < 86400) return `hace ${Math.floor(d / 3600)}h`;
+      return `hace ${Math.floor(d / 86400)}d`;
+    }
+
+    function bindAll() {
+      document.getElementById("admin-unlock")?.addEventListener("click", async () => {
+        const input = document.getElementById("admin-key-input") as HTMLInputElement;
+        const errEl = document.getElementById("admin-key-error")!;
+        const k = input.value.trim();
+        if (!k) { errEl.textContent = "Pega tu key."; return; }
+        setKey(k);
+        try {
+          const d = await api("/api/admin/stats");
+          if (d.ok) {
+            errEl.textContent = "";
+            setState("unlocked");
+            loadStats();
+          } else {
+            clearKey();
+            errEl.textContent = "Key inválida.";
+          }
+        } catch {
+          errEl.textContent = "Key inválida.";
+        }
+      });
+
+      document.getElementById("admin-key-input")?.addEventListener("keydown", (e) => {
+        if ((e as KeyboardEvent).key === "Enter") {
+          (document.getElementById("admin-unlock") as HTMLButtonElement)?.click();
+        }
+      });
+
+      document.getElementById("admin-logout")?.addEventListener("click", () => {
+        clearKey();
+        setState("locked");
+      });
+
+      document.querySelectorAll<HTMLElement>(".admin-tab").forEach((el) => {
+        el.addEventListener("click", () => setTab(el.dataset.tab!));
+      });
+
+      document.getElementById("btn-preview")?.addEventListener("click", preview);
+      document.getElementById("btn-test-send")?.addEventListener("click", () => sendBroadcast({ test: true }));
+      document.getElementById("btn-broadcast")?.addEventListener("click", () => sendBroadcast({ test: false }));
+    }
+
+    function init() {
+      bindAll();
+      if (getKey()) {
+        setState("unlocked");
+        loadStats();
+      } else {
+        setState("locked");
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  </script>
+</Base>

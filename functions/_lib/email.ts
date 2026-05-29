@@ -144,3 +144,75 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+export function newsletterEmail(
+  email: string,
+  unsubUrl: string,
+  bodyHtml: string
+): { html: string; text: string } {
+  const fullUnsubUrl = unsubUrl.startsWith("http") ? unsubUrl : `${SITE_URL}${unsubUrl}`;
+
+  const html = `<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background:#FBF8F3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1A1816;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#FBF8F3;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="640" style="max-width:640px;background:#FFFFFF;border-radius:14px;border:1px solid #E8E4DC;overflow:hidden;">
+          <tr>
+            <td style="padding:24px 32px 12px;border-bottom:1px solid #E8E4DC;">
+              <a href="${SITE_URL}/" style="text-decoration:none;color:#1A1816;">
+                <div style="font-family:Georgia,serif;font-size:24px;font-weight:600;letter-spacing:-0.02em;color:#1A1816;">El Tianguis</div>
+                <div style="font-family:monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#6B6660;margin-top:3px;">Boletín · por Sistemia</div>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 32px;font-size:16px;line-height:1.65;color:#1A1816;">
+              <div class="newsletter-body">${bodyHtml}</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 32px;background:#F6EFE3;border-top:1px solid #E8E4DC;font-size:12px;color:#6B6660;line-height:1.6;">
+              Recibes este correo porque te apuntaste con <strong>${escapeHtml(email)}</strong> en
+              <a href="${SITE_URL}/" style="color:#9d422a;text-decoration:underline;">eltianguis.sistemia.mx</a>.
+              <br>
+              <a href="${fullUnsubUrl}" style="color:#9d422a;text-decoration:underline;">Darse de baja</a> en un click.
+              <br><br>
+              Sistemia · Hecho en México, abierto a Latinoamérica.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  const plain = bodyHtml
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n\n")
+    .replace(/<\/h[1-6]>/gi, "\n\n")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  const text = `${plain}
+
+---
+Recibes este correo porque te apuntaste con ${email} en eltianguis.sistemia.mx.
+Darse de baja: ${fullUnsubUrl}
+
+Sistemia · Hecho en México, abierto a Latinoamérica.`;
+
+  return { html, text };
+}
