@@ -1,0 +1,231 @@
+---
+import GuideLayout from "../../components/GuideLayout.astro";
+import { getGuide } from "../../data/guides";
+const guide = getGuide("focus-group-sintetico-mexicano")!;
+---
+<GuideLayout guide={guide}>
+  <p>
+    Quien haya gastado en pauta digital sabe el momento incómodo: estás a punto de meterle $30,000 MXN a una campaña de Meta Ads, el creativo está listo, el copy ya pasó por varios ojos del equipo, y todavía no sabes si va a funcionar. Lanzas, pierdes los primeros $10,000 entendiendo que el copy no jaló, iteras, y ojalá la siguiente versión cubra el costo de la primera.
+  </p>
+
+  <p>
+    Para los grandes (Coca-Cola, Bimbo, Nestlé) esto se resuelve con focus groups reales: 8-12 mexicanos de tu segmento en una sala con espejo unilateral, un moderador, tres horas, $80,000 MXN por sesión. Para los chicos y medianos, ese presupuesto no existe. Lanzas a ciegas.
+  </p>
+
+  <p>
+    Esta guía explica cómo armamos un sustituto sintético — un panel de 14 personas mexicanas validadas que viven dentro de Claude Code y leen tu copy antes de que gastes el primer peso. Por qué los focus groups gringos no aplican, qué fuentes públicas usamos para calibrar, y un ejemplo concreto con un anuncio real.
+  </p>
+
+  <h2>Por qué un focus group gringo no aplica para MX</h2>
+
+  <p>
+    Si googleas "synthetic focus group" encuentras varios productos en inglés. Todos calibrados con datos US: Census Bureau, GfK MRI-Simmons, Nielsen US. Ninguno sirve para evaluar copy mexicano por tres razones específicas.
+  </p>
+
+  <p>
+    <strong>Primera: la segmentación NSE es distinta.</strong> En US la gente clasifica por income quintile o por demographic clusters tipo PRIZM. En México la industria de research usa NSE AMAI (8x7 antes, 6 variables desde 2017), que mide acceso a bienes y servicios, no solo ingreso. Una persona con bajo income pero con dos baños completos, internet y dos autos no está en lo mismo que alguien con income similar pero un baño y sin auto.
+  </p>
+
+  <p>
+    <strong>Segunda: la distribución regional es distinta.</strong> CDMX, Monterrey y Guadalajara son tres mundos distintos cuando se trata de cómo se toma una decisión de compra. La cantidad de personas que viven en cada NSE varía mucho entre estados — Yucatán tiene más concentración A/B en Mérida, Chiapas tiene más D/E rural. Un focus group US no captura ese gradiente.
+  </p>
+
+  <p>
+    <strong>Tercera: las plataformas y referencias culturales son distintas.</strong> "<em>Mi piloto se ve cheap</em>" tiene un sabor específico mexicano que no se traduce literalmente del inglés. Las marcas de referencia (Bimbo, Soriana, Banamex, AT&amp;T MX, Aurrera) no están en el dataset gringo. Las celebridades, los memes, las noticias políticas que afectan el ánimo de consumo — todo eso es local.
+  </p>
+
+  <h2>Las fuentes públicas que sí sirven</h2>
+
+  <p>
+    Para construir un panel sintético mexicano que aguante un análisis serio, las fuentes son:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Fuente</th>
+        <th>Qué aporta</th>
+        <th>Disponibilidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ENIGH 2022 INEGI</td>
+        <td>Estructura de gasto por NSE y entidad</td>
+        <td>Pública, microdatos descargables</td>
+      </tr>
+      <tr>
+        <td>AMAI Niveles Socioeconómicos 2024</td>
+        <td>Regla oficial de clasificación NSE</td>
+        <td>Pública (nota metodológica)</td>
+      </tr>
+      <tr>
+        <td>PROFECO Quién es Quién en los Precios</td>
+        <td>Precios reales para calibrar affordability</td>
+        <td>Pública vía datos.gob.mx</td>
+      </tr>
+      <tr>
+        <td>INE Cómputos Distritales 2024</td>
+        <td>Distribución de voto presidencial por estado</td>
+        <td>Pública</td>
+      </tr>
+      <tr>
+        <td>ENDUTIH 2024 INEGI</td>
+        <td>Penetración de internet, redes y dispositivos</td>
+        <td>Pública</td>
+      </tr>
+      <tr>
+        <td>CONAPO Proyecciones 2020-2070</td>
+        <td>Demografía por entidad × edad × sexo</td>
+        <td>Pública</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Sumadas son ~4 GB de datos brutos que requieren limpieza, consolidación y validación cruzada para producir personas coherentes. Es trabajo de meses, no un script de fin de semana.
+  </p>
+
+  <h2>El método PSEC-MX en perspectiva</h2>
+
+  <p>
+    Internamente llamamos al método PSEC-MX (Población Sintética con Estructura Calibrada para México). A alto nivel:
+  </p>
+
+  <ol>
+    <li><strong>Definir la matriz de cobertura.</strong> Tres NSE principales (A/B, C, D/E), tres rangos de edad (millennial, X, boomer), dos géneros, cuatro regiones (CDMX, ZMM, ZMG, sureste/centro-bajío). Eso da una grilla teórica que define los huecos a llenar.</li>
+    <li><strong>Anclar cada persona en datos reales.</strong> Cada arquetipo se construye sobre una intersección concreta de ENIGH (qué gasta), AMAI (su NSE oficial), INE (su voto si se reveló), PROFECO (qué precios paga típicamente).</li>
+    <li><strong>Calibrar lenguaje y tono.</strong> Las respuestas de cada persona se afinan iterando contra ejemplos reales de habla, no contra una traducción genérica del español de España o LATAM.</li>
+    <li><strong>Backtest contra casos históricos.</strong> Tomar 10-20 anuncios que ya se lanzaron en MX (con outcome conocido) y medir si las personas sintéticas hubieran predicho el resultado. Si el hit rate es alto, el panel es útil; si no, hay que recalibrar.</li>
+  </ol>
+
+  <p>
+    En la versión actual del panel completo (que vive comercialmente en marketing.sistemia.mx), el backtest dio hit rate 100% sobre n=10 casos diversos, con Cohen's d 4.98 y AUC 1.00. Sobre n=20 lo seguimos midiendo.
+  </p>
+
+  <h2>Cómo se ve una persona del panel</h2>
+
+  <p>
+    Las 14 personas no son listas de atributos. Cada una tiene un dossier de 1-2 páginas con su historia laboral, su composición familiar, sus marcas habituales, su voto 2024, sus medios de información, sus deal-breakers en publicidad. Tres ejemplos a alto nivel (sin dar los dossiers completos):
+  </p>
+
+  <ul>
+    <li>
+      <strong>Andrea (A/B, 38 años, Monterrey)</strong>. Directora de marketing en empresa familiar. Vive en Cumbres, dos hijos en escuela bilingüe. Lee El Financiero. Compra en City Market y HEB. Voto 2024 oposición. Le molesta el copy que se ve "cheap"; valora pruebas sociales y trazabilidad. Útil como evaluadora de premium / lujo / B2B alto.
+    </li>
+    <li>
+      <strong>Mariana (C+, 32 años, Guadalajara)</strong>. Coordinadora administrativa. Vive en Zapopan, recién casada. Compra en Soriana y Walmart con tarjeta departamental. Voto 2024 Morena pero sin militancia. Le late lo aspiracional accesible (Liverpool por temporada). Útil para mid-market masivo.
+    </li>
+    <li>
+      <strong>María Fer (C-, 27 años, Edomex)</strong>. Cajera en tienda departamental. Vive con su mamá y dos hermanos. Compra en Bodega Aurrera, mercado sobre ruedas, y Mercado Libre cuando junta. Voto 2024 Sheinbaum. Le molesta el copy paternalista; le late lo familiar y cercano. Útil como control para detectar elitismo no intencional.
+    </li>
+  </ul>
+
+  <p>
+    Las 11 restantes cubren el resto del espectro: el patrimonio heredado, el dueño de PyME informal, el jubilado pensionado, el universitario primer-en-su-familia, etc.
+  </p>
+
+  <h2>El método de evaluación: FGMX-Score</h2>
+
+  <p>
+    Cuando le pasas un copy al panel, no devuelve una opinión libre — devuelve un análisis estructurado en 7 dimensiones que llamamos FGMX-Score:
+  </p>
+
+  <ol>
+    <li><strong>Comprensión</strong> — ¿lo entendí al primer segundo?</li>
+    <li><strong>Relevancia</strong> — ¿me llama por algo concreto?</li>
+    <li><strong>Credibilidad</strong> — ¿me creo la promesa?</li>
+    <li><strong>Diferenciación</strong> — ¿me suena distinto a otros que dicen lo mismo?</li>
+    <li><strong>Emocional</strong> — ¿genera reacción genuina?</li>
+    <li><strong>Affordability</strong> — ¿el precio cabe en mi presupuesto?</li>
+    <li><strong>Intención de compra</strong> — ¿lo iría a buscar?</li>
+  </ol>
+
+  <p>
+    Cada persona puntúa cada dimensión de 0 a 10 con una rúbrica BARS (Behaviorally Anchored Rating Scale) que define qué significa cada nivel. El score agregado se llama <strong>Buyability</strong> y pondera las dimensiones según la categoría del producto (premium pondera diferenciación; consumo masivo pondera affordability; B2B pondera credibilidad).
+  </p>
+
+  <h2>Ejemplo concreto: un anuncio real</h2>
+
+  <p>
+    Tomemos un caso ficticio pero realista. Un seguro de auto con copy:
+  </p>
+
+  <blockquote>
+    <em>"Protege lo que más quieres por solo $399 al mes. Cobertura amplia, sin enganche."</em>
+  </blockquote>
+
+  <p>
+    Lo metes al panel con categoría "fintech_banca" y target "C+ urbano 28-45". Las personas relevantes responden algo así:
+  </p>
+
+  <p>
+    <strong>Andrea (A/B Monterrey):</strong> <em>"$399 al mes para un seguro de auto suena raro barato. ¿Qué cubre? Yo busco confianza, no precio. Si no veo la marca atrás, paso." [Comprensión 7, Credibilidad 4, Buyability 4.8]</em>
+  </p>
+
+  <p>
+    <strong>Mariana (C+ Guadalajara):</strong> <em>"$399 sí me cuadra. Pero 'cobertura amplia' no me dice nada. ¿Cubre robo total? ¿Cristales? Me late ver desglose. Si lo veo y está bien, sí lo considero." [Comprensión 6, Affordability 8, Buyability 6.5]</em>
+  </p>
+
+  <p>
+    <strong>María Fer (C- Edomex, control):</strong> <em>"$399 sigue siendo mucho para mí cada mes. Si lo dieran semestral lo pensaría. Y necesito ver que sí pagan cuando choco, no nomás promesas." [Affordability 3, Intención 3, Buyability 3.4]</em>
+  </p>
+
+  <p>
+    El panel agrega los scores y devuelve:
+  </p>
+
+  <ul>
+    <li>Buyability target promedio: <strong>5.7/10</strong> (mediocre)</li>
+    <li>Dimensión más débil: <strong>Credibilidad (4.5)</strong></li>
+    <li>Dimensión más fuerte: <strong>Affordability (7.2)</strong></li>
+    <li>Spread target-control: <strong>2.3</strong> (sano — el targeting está bien)</li>
+    <li>Recomendación: agregar social proof concreto y detallar coberturas. Considerar pricing semestral para abrir tier C-.</li>
+  </ul>
+
+  <p>
+    Y genera tres variantes mejoradas con copy específico que tú puedes A/B testear antes de mandar a producción. Lo que evitas: gastar la pauta de aprendizaje en un copy que ya sabes que tiene problema de credibilidad.
+  </p>
+
+  <h2>Lo que NO hace este skill</h2>
+
+  <p>
+    Para que quede claro: el panel sintético no sustituye un focus group real con personas vivas. Es un filtro previo barato y rápido, no la decisión final.
+  </p>
+
+  <ul>
+    <li>No predice ventas en pesos exactos.</li>
+    <li>No reemplaza testing real (Meta Ads, Google Ads pre-launch).</li>
+    <li>No captura el peso de la creatividad visual (las personas solo leen, no ven imágenes).</li>
+    <li>No tiene memoria entre runs — cada evaluación arranca de cero.</li>
+    <li>No sirve para mercados fuera de México.</li>
+  </ul>
+
+  <p>
+    Lo que sí hace: detectar los problemas obvios antes de quemar dinero, dar lenguaje específico para iterar, y hacerlo en minutos en vez de semanas.
+  </p>
+
+  <h2>Cómo lo pruebas tú</h2>
+
+  <p>
+    En el tianguis hay una versión preview pública con tres personas de ejemplo (Andrea, Mariana, María Fer) y el método explicado a nivel pitch. Sirve para que sientas el formato y el tono. La instalación toma tres comandos:
+  </p>
+
+  <pre><code>{`git clone https://github.com/lahh1986/sistemia-skills-mx.git
+mkdir -p ~/.claude/skills
+cp -r sistemia-skills-mx/skills/focus-group-mx ~/.claude/skills/focus-group-mx`}</code></pre>
+
+  <p>
+    La versión completa (las 14 personas validadas con dossiers completos, FGMX-Score con pesos calibrados por categoría, base PROFECO para validar pricing en tiempo real, backtest histórico documentado) vive en <a href="https://marketing.sistemia.mx">marketing.sistemia.mx</a> como producto comercial de Sistemia. Si te interesa probarla antes de comprometerte, escríbenos por WhatsApp desde la página del skill — la primera evaluación va por nuestra cuenta.
+  </p>
+
+  <h2>Para seguir</h2>
+
+  <p>
+    Si esta es tu primera lectura del tianguis y te llamó la atención el método, recomendamos seguir con <a href="/guia/skills-en-espanol-mexico-latam">Skills en español para MX/Latam: qué cambia cuando son locales</a> para entender por qué este tipo de herramientas no las va a construir un equipo gringo, y por qué tiene sentido que el tianguis exista como catálogo en español.
+  </p>
+
+  <p>
+    Y si ya estás listo para explorar los demás skills, en la <a href="/c/mx-latam">categoría MX/Latam</a> están los siete que hay live, todos con preview gratis.
+  </p>
+</GuideLayout>

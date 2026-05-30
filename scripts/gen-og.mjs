@@ -161,6 +161,48 @@ async function render(svg, outPath) {
   console.log(`  ✓ ${outPath.replace(ROOT + "/", "")} (${(png.length / 1024).toFixed(1)} KB)`);
 }
 
+function guideSvg(guide) {
+  const titleLines = wrapText(guide.title, 28);
+  const titleSize = titleLines.length >= 3 ? 60 : titleLines.length === 2 ? 68 : 76;
+  const titleSpan = titleLines
+    .slice(0, 3)
+    .map((l, i) => `<tspan x="0" dy="${i === 0 ? 0 : titleSize * 1.0}">${escapeXml(l)}</tspan>`)
+    .join("");
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="blob1" cx="0%" cy="100%" r="55%">
+      <stop offset="0%" stop-color="${ANIL}" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="${ANIL}" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob2" cx="100%" cy="0%" r="50%">
+      <stop offset="0%" stop-color="${TERRACOTA}" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="${TERRACOTA}" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="${CANVAS}"/>
+  <rect width="1200" height="630" fill="url(#blob1)"/>
+  <rect width="1200" height="630" fill="url(#blob2)"/>
+
+  <g transform="translate(80,90)">
+    <text font-family="Fraunces" font-size="32" font-weight="600" fill="${INK}" letter-spacing="-0.02em">El Tianguis</text>
+    <text x="200" y="-2" font-family="Inter" font-size="14" font-weight="500" fill="${INK_SOFT}" letter-spacing="2">POR SISTEMIA</text>
+  </g>
+
+  <g transform="translate(80,260)">
+    <text font-family="Inter" font-size="18" font-weight="600" fill="${TERRACOTA}" letter-spacing="2.5">GUÍA · ${escapeXml(guide.eyebrow.toUpperCase())}</text>
+  </g>
+
+  <g transform="translate(80,320)">
+    <text font-family="Fraunces" font-size="${titleSize}" font-weight="600" fill="${INK}" letter-spacing="-0.025em">${titleSpan}</text>
+  </g>
+
+  <g transform="translate(80,590)">
+    <text font-family="Inter" font-size="16" font-weight="500" fill="${INK_SOFT}" letter-spacing="0.5">${escapeXml(guide.readMinutes)} min de lectura · eltianguis.sistemia.mx/guia</text>
+  </g>
+</svg>`;
+}
+
 const outDir = resolve(ROOT, "public/og");
 await mkdir(outDir, { recursive: true });
 
@@ -172,6 +214,12 @@ const skills = JSON.parse(skillsRaw);
 for (const s of skills) {
   if (s.status === "planned") continue;
   await render(skillSvg(s), resolve(outDir, `${s.slug}.png`));
+}
+
+const guidesRaw = await readFile(resolve(ROOT, "src/data/guides.json"), "utf-8");
+const guides = JSON.parse(guidesRaw);
+for (const g of guides) {
+  await render(guideSvg(g), resolve(outDir, `guia-${g.slug}.png`));
 }
 
 console.log("Done.");

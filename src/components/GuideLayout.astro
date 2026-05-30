@@ -1,0 +1,132 @@
+---
+import Base from "../layouts/Base.astro";
+import { skills } from "../data/skills";
+import type { Guide } from "../data/guides";
+import { otherGuides } from "../data/guides";
+
+interface Props {
+  guide: Guide;
+}
+
+const { guide } = Astro.props;
+const ogImage = `/og/guia-${guide.slug}.png`;
+const canonical = new URL(`/guia/${guide.slug}`, Astro.site).toString();
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: guide.title,
+  description: guide.description,
+  datePublished: guide.publishedAt,
+  dateModified: guide.publishedAt,
+  inLanguage: "es-MX",
+  author: {
+    "@type": "Organization",
+    name: "Sistemia",
+    url: "https://sistemia.mx",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "El Tianguis por Sistemia",
+    url: "https://eltianguis.sistemia.mx",
+  },
+  image: new URL(ogImage, Astro.site).toString(),
+  mainEntityOfPage: canonical,
+  keywords: guide.keywords.join(", "),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "El Tianguis", item: "https://eltianguis.sistemia.mx/" },
+    { "@type": "ListItem", position: 2, name: "Guías", item: "https://eltianguis.sistemia.mx/guia" },
+    { "@type": "ListItem", position: 3, name: guide.title, item: canonical },
+  ],
+};
+
+const related = guide.relatedSkills
+  .map((slug) => skills.find((s) => s.slug === slug))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
+const others = otherGuides(guide.slug);
+---
+<Base title={guide.metaTitle} description={guide.description} ogImage={ogImage}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(articleSchema)}
+  />
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+
+  <nav class="wrap pt-12 max-w-3xl flex items-center gap-2 text-xs text-[color:var(--color-ink-soft)]">
+    <a href="/" class="hover:text-[color:var(--color-ink)]">Tianguis</a>
+    <span>·</span>
+    <a href="/guia" class="hover:text-[color:var(--color-ink)]">Guías</a>
+    <span>·</span>
+    <span class="text-[color:var(--color-ink-muted)] truncate">{guide.eyebrow}</span>
+  </nav>
+
+  <header class="wrap pt-6 pb-10 max-w-3xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota)] mb-3">
+      {guide.eyebrow}
+    </div>
+    <h1 class="font-display text-4xl sm:text-5xl text-[color:var(--color-ink)] leading-[1.05] tracking-tight">
+      {guide.title}
+    </h1>
+    <p class="mt-5 text-lg text-[color:var(--color-ink-muted)] leading-relaxed">
+      {guide.description}
+    </p>
+    <div class="mt-5 flex items-center gap-3 text-sm text-[color:var(--color-ink-soft)]">
+      <span>por {guide.author}</span>
+      <span>·</span>
+      <time datetime={guide.publishedAt} class="tabular">{guide.publishedAt}</time>
+      <span>·</span>
+      <span class="tabular">{guide.readMinutes} min de lectura</span>
+    </div>
+  </header>
+
+  <article class="wrap pb-16 max-w-3xl">
+    <div class="prose-tianguis">
+      <slot />
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="wrap pb-16 max-w-3xl">
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-4">
+        Skills mencionados
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2">
+        {related.map((s) => (
+          <a href={`/s/${s.slug}`} class="card no-underline">
+            <div class="text-[10px] font-mono tracking-[0.14em] uppercase text-[color:var(--color-terracota)] mb-1.5">
+              {s.type}
+            </div>
+            <div class="font-display text-xl text-[color:var(--color-ink)] mb-1">{s.name}</div>
+            <div class="text-sm text-[color:var(--color-ink-muted)] leading-relaxed">{s.tagline}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {others.length > 0 && (
+    <section class="wrap pb-24 max-w-3xl">
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-4">
+        Sigue leyendo
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2">
+        {others.map((g) => (
+          <a href={`/guia/${g.slug}`} class="card no-underline">
+            <span class="pill pill-mx">{g.eyebrow}</span>
+            <div class="font-display text-lg text-[color:var(--color-ink)] mt-3 mb-1 leading-tight">{g.title}</div>
+            <div class="text-xs text-[color:var(--color-ink-soft)] tabular mt-2">{g.readMinutes} min</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</Base>

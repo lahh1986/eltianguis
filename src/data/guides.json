@@ -1,0 +1,41 @@
+[
+  {
+    "slug": "que-es-skill-claude-code",
+    "title": "¿Qué es un skill de Claude Code y cómo lo instalas?",
+    "metaTitle": "¿Qué es un skill de Claude Code? Guía para empezar",
+    "description": "Un skill es lo que convierte a Claude Code de asistente general a especialista. Te explicamos qué son, cómo funcionan internamente, y cómo instalas tu primero en 3 pasos.",
+    "category": "Fundamentos",
+    "readMinutes": 8,
+    "publishedAt": "2026-05-30",
+    "author": "Sistemia",
+    "keywords": ["skill claude code", "que es claude code", "extensiones claude code", "como usar claude code", "skills ai español"],
+    "relatedSkills": ["focus-group-mx", "precios-mx", "legal-pyme-mx"],
+    "eyebrow": "Fundamentos"
+  },
+  {
+    "slug": "skills-en-espanol-mexico-latam",
+    "title": "Skills de Claude Code en español: qué cambia cuando son locales para MX y Latam",
+    "metaTitle": "Skills de Claude Code en español para México y Latam",
+    "description": "Un skill genérico en inglés no entiende CFDI, AMAI ni Mercado Pago. Te explicamos qué cambia cuando un skill se construye para realidades locales y por qué un equipo gringo no va a hacerlos por ti.",
+    "category": "Estrategia",
+    "readMinutes": 9,
+    "publishedAt": "2026-05-30",
+    "author": "Sistemia",
+    "keywords": ["skills claude code español", "claude code mexico", "ai para mexico", "ia latinoamerica", "claude code latam"],
+    "relatedSkills": ["focus-group-mx", "precios-mx", "nse-mx", "legal-pyme-mx", "mercado-local-mx"],
+    "eyebrow": "Estrategia"
+  },
+  {
+    "slug": "focus-group-sintetico-mexicano",
+    "title": "Cómo armé un focus group de 14 mexicanos sintéticos para validar copy publicitario",
+    "metaTitle": "Focus group sintético MX: 14 mexicanos para validar copy de ads",
+    "description": "Detrás del skill Focus Group MX: por qué los focus groups gringos no aplican, cómo se construye un panel sintético validado con datos públicos, y un ejemplo concreto con copy de un anuncio real.",
+    "category": "Caso de estudio",
+    "readMinutes": 11,
+    "publishedAt": "2026-05-30",
+    "author": "Sistemia",
+    "keywords": ["focus group mexicano", "validar copy mexico", "personas sinteticas", "test de copy mx", "ads mexico", "FGMX score"],
+    "relatedSkills": ["focus-group-mx", "nse-mx", "habitos-digitales-mx"],
+    "eyebrow": "Caso de estudio"
+  }
+]

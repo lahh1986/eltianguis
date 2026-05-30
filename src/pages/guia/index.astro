@@ -1,0 +1,46 @@
+---
+import Base from "../../layouts/Base.astro";
+import { guides } from "../../data/guides";
+
+const title = "Guías del tianguis — entender skills de Claude Code en español";
+const description = "Guías para entender qué son los skills de Claude Code, cómo funcionan, y por qué hace diferencia tenerlos hechos para México y Latam.";
+---
+<Base title={title} description={description}>
+  <section class="wrap pt-20 pb-12 max-w-3xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota)] mb-3">
+      Guías
+    </div>
+    <h1 class="font-display text-5xl sm:text-6xl text-[color:var(--color-ink)] leading-[0.95]">
+      Lecturas para sacarle jugo al tianguis.
+    </h1>
+    <p class="mt-5 text-lg text-[color:var(--color-ink-muted)] leading-relaxed">
+      Tres lecturas: qué es un skill de Claude Code, por qué hace diferencia que sean locales para MX/Latam, y cómo armamos el focus group sintético mexicano de Sistemia.
+    </p>
+  </section>
+
+  <section class="wrap pb-24 max-w-3xl">
+    <ul class="space-y-6">
+      {guides.map((g) => (
+        <li>
+          <a href={`/guia/${g.slug}`} class="card group flex flex-col gap-3 no-underline">
+            <div class="flex items-center justify-between gap-3">
+              <span class="pill pill-mx">{g.eyebrow}</span>
+              <span class="text-xs font-mono text-[color:var(--color-ink-soft)]">{g.readMinutes} min de lectura</span>
+            </div>
+            <h2 class="font-display text-2xl sm:text-3xl text-[color:var(--color-ink)] group-hover:text-[color:var(--color-terracota)] transition leading-tight">
+              {g.title}
+            </h2>
+            <p class="text-[color:var(--color-ink-muted)] leading-relaxed text-sm sm:text-base">
+              {g.description}
+            </p>
+            <div class="flex items-center gap-3 mt-1 text-xs text-[color:var(--color-ink-soft)]">
+              <span>por {g.author}</span>
+              <span>·</span>
+              <span class="tabular">{g.publishedAt}</span>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

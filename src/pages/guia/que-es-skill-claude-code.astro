@@ -1,0 +1,206 @@
+---
+import GuideLayout from "../../components/GuideLayout.astro";
+import { getGuide } from "../../data/guides";
+const guide = getGuide("que-es-skill-claude-code")!;
+---
+<GuideLayout guide={guide}>
+  <p>
+    Cuando instalas Claude Code y lo arrancas por primera vez, lo que tienes es un asistente general muy bueno. Puede leer tus archivos, escribir código, correr comandos, abrir issues en GitHub. Pero <strong>no sabe nada de tu negocio, ni de tu industria, ni de tu país, ni de los datos que viven en tu disco duro</strong>.
+  </p>
+
+  <p>
+    Un <em>skill</em> es lo que cambia eso. Un skill es un folder con instrucciones, datos y scripts que Claude Code carga automáticamente cuando detecta que el contexto de tu pregunta lo amerita. Después de instalarlo, Claude se convierte en especialista en algo concreto: precios reales de PROFECO, evaluación de copy publicitario para mercado mexicano, cumplimiento legal PyME, o lo que sea.
+  </p>
+
+  <p>
+    Esta guía explica qué es un skill, cómo funciona internamente, qué los hace distintos a un prompt o a un agente, y cómo instalas tu primero en tres pasos. Al final dejamos cinco skills del tianguis para que pruebes con uno real.
+  </p>
+
+  <h2>Skill no es prompt ni agente: la distinción importa</h2>
+
+  <p>
+    Estos tres términos se confunden mucho. La diferencia:
+  </p>
+
+  <ul>
+    <li><strong>Prompt</strong>: lo que tú escribes en cada pregunta. Es efímero. Se va con la sesión.</li>
+    <li><strong>Skill</strong>: un folder persistente que Claude Code carga al iniciar. Tiene instrucciones, ejemplos, datos y scripts. Se activa automáticamente cuando tu pregunta encaja con sus triggers, y siempre puedes invocarlo a mano.</li>
+    <li><strong>Sub-agente</strong>: una versión especializada de Claude que corre en paralelo para una tarea específica. Útil cuando el trabajo es grande y conviene aislarlo del hilo principal.</li>
+  </ul>
+
+  <p>
+    Un skill se parece más a una <strong>extensión de navegador</strong> que a un chatbot. No es algo que llamas; es algo que está instalado y se activa solo en el momento adecuado.
+  </p>
+
+  <h2>Anatomía de un skill: qué hay dentro de la carpeta</h2>
+
+  <p>
+    Un skill mínimo tiene un solo archivo: <code>SKILL.md</code> con frontmatter YAML. Un skill serio tiene más:
+  </p>
+
+  <pre><code>{`mi-skill/
+├── SKILL.md           ← instrucciones principales + triggers
+├── README.md          ← documentación para humanos
+├── data/              ← datasets, snapshots, JSON
+├── scripts/           ← helpers (Python, Bash, Node)
+└── examples/          ← queries de ejemplo + outputs esperados`}</code></pre>
+
+  <p>
+    El frontmatter del <code>SKILL.md</code> es lo que Claude Code lee al inicio para decidir cuándo activarlo:
+  </p>
+
+  <pre><code>{`---
+name: precios-mx
+description: |
+  Usar cuando el usuario quiera consultar PRECIOS REALES de productos
+  en México por colonia, ciudad, cadena o periodo.
+  Triggers: "cuánto cuesta X en Y", "precio de X en CDMX",
+  "Walmart vs Soriana", "PROFECO", "QQP".
+---
+
+# precios-mx — Consulta de precios reales MX
+
+[resto de las instrucciones]`}</code></pre>
+
+  <p>
+    Cuando tú escribes algo como "<em>¿cuánto cuesta el aceite Capullo en Guadalajara?</em>", Claude detecta los triggers del skill <strong>precios-mx</strong>, lo activa, y sigue las instrucciones de su SKILL.md (que dicen: consulta esta DB, devuelve mediana + top 3 cadenas + insight).
+  </p>
+
+  <h2>Cómo se activa un skill: el mecanismo de triggers</h2>
+
+  <p>
+    Esto es lo que confunde a la gente nueva. No tienes que decirle a Claude "<em>usa el skill precios-mx</em>". Si el skill está bien escrito, se activa solo cuando el contexto lo amerita.
+  </p>
+
+  <p>
+    El campo <code>description</code> del frontmatter funciona como un clasificador. Claude lee ese texto al iniciar la sesión y lo guarda como índice. Cuando llega tu pregunta, internamente la compara contra todos los skills instalados y activa los que matchean.
+  </p>
+
+  <p>
+    Por eso un buen skill tiene una sección de triggers explícita: <em>"Triggers: 'cuánto cuesta X', 'precio de Y en Z', 'PROFECO'..."</em>. Mientras más concretos sean los triggers, menos falsos positivos hay.
+  </p>
+
+  <h2>Qué hace un skill que un prompt no puede hacer</h2>
+
+  <p>
+    Tres cosas que un prompt suelto no resuelve y un skill sí:
+  </p>
+
+  <ol>
+    <li>
+      <strong>Persistencia entre sesiones.</strong> Un skill vive en disco. Lo instalas una vez y todas tus futuras sesiones de Claude Code lo tienen disponible sin que tengas que volver a explicar nada.
+    </li>
+    <li>
+      <strong>Acceso a datos locales.</strong> El skill incluye sus scripts y data. Cuando se activa, puede leer un DuckDB de 916 MB en tu disco, hacer una query, devolver el resultado. Un prompt no puede hacer eso porque no trae el dataset adentro.
+    </li>
+    <li>
+      <strong>Comportamiento estructurado.</strong> El SKILL.md define cómo responder: qué tabla mostrar, qué chequeos hacer, qué errores avisar, qué no hacer. Eso hace que el output sea predecible. Un prompt es interpretación libre.
+    </li>
+  </ol>
+
+  <h2>Cinco ejemplos concretos del tianguis</h2>
+
+  <p>
+    Para que veas qué hace cada uno con su contexto local:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Le preguntas</th>
+        <th>Te responde</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="/s/focus-group-mx">Focus Group MX</a></td>
+        <td>"Evalúa este copy: 'Compra dos por uno este viernes'"</td>
+        <td>14 personas mexicanas leen el copy y devuelven reacción + score por dimensión + sugerencia</td>
+      </tr>
+      <tr>
+        <td><a href="/s/precios-mx">Precios MX</a></td>
+        <td>"¿Dónde es más barata la Coca-Cola en Monterrey?"</td>
+        <td>Tabla con top 3 sucursales, mediana del mercado, fecha de captura</td>
+      </tr>
+      <tr>
+        <td><a href="/s/legal-pyme-mx">Legal PyME MX</a></td>
+        <td>"Valida este RFC: GACX950122ABC"</td>
+        <td>Estructura válida, fecha derivada, dígito verificador, status en lista 69-B</td>
+      </tr>
+      <tr>
+        <td><a href="/s/nse-mx">NSE MX</a></td>
+        <td>"Clasifica este hogar: jefe con preparatoria, 2 baños, 1 auto, internet sí..."</td>
+        <td>NSE C+ (percentil 73 nacional), perfil de gasto típico, distribución por estado</td>
+      </tr>
+      <tr>
+        <td><a href="/s/demografia-mx">Demografía MX</a></td>
+        <td>"¿Cuántas mujeres 25-34 viven en Jalisco?"</td>
+        <td>668,400 mujeres (2026, CONAPO), 51% del segmento, trayectoria hasta 2031</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Lo importante: tú no le dices a Claude "<em>usa precios-mx</em>". Le preguntas en lenguaje natural y él decide.
+  </p>
+
+  <h2>Cómo instalas tu primer skill en 3 pasos</h2>
+
+  <p>
+    Asumimos que ya tienes Claude Code instalado. Si no, la <a href="https://docs.claude.com/en/docs/claude-code/quickstart">guía oficial</a> toma como cinco minutos.
+  </p>
+
+  <h3>Paso 1: Encuentra el skill en el tianguis</h3>
+
+  <p>
+    Abre <a href="/">eltianguis.sistemia.mx</a>, filtra por tipo o categoría. Cada puesto tiene su página con SKILL.md renderizado, ejemplos, y botón de instalación. Para una primera vez, recomendamos <strong>nse-mx</strong> o <strong>habitos-digitales-mx</strong> — vienen con datos en el repo, no requieren bases externas.
+  </p>
+
+  <h3>Paso 2: Clona y copia</h3>
+
+  <pre><code>{`git clone https://github.com/lahh1986/sistemia-skills-mx.git
+mkdir -p ~/.claude/skills
+cp -r sistemia-skills-mx/skills/nse-mx ~/.claude/skills/nse-mx`}</code></pre>
+
+  <p>
+    La carpeta <code>~/.claude/skills/</code> es donde Claude Code busca skills al iniciar. Cualquier folder que pongas ahí se carga automáticamente.
+  </p>
+
+  <h3>Paso 3: Reinicia Claude Code y úsalo</h3>
+
+  <p>
+    Cierra y vuelve a abrir Claude Code en tu proyecto. Ahora cuando hables, los triggers del skill ya están registrados. Pruébalo:
+  </p>
+
+  <pre><code>{`Tú: "Clasifica este hogar — jefe con licenciatura, 2 baños,
+1 auto, internet, esposa trabaja, dos hijos en escuela.
+¿Qué NSE es?"
+
+Claude (con nse-mx activo): NSE C+ (puntuación 152, percentil 73
+nacional). Acceso a productos de marca media-alta. Distribución
+similar en CDMX, Monterrey, Guadalajara. [...]`}</code></pre>
+
+  <h2>Errores comunes al instalar tu primer skill</h2>
+
+  <ul>
+    <li><strong>No reiniciar Claude Code.</strong> El registro de skills es al inicio. Si lo copiaste con Claude abierto, no lo va a ver.</li>
+    <li><strong>Carpeta mal anidada.</strong> <code>~/.claude/skills/nse-mx/SKILL.md</code> está bien. <code>~/.claude/skills/sistemia-skills-mx/skills/nse-mx/SKILL.md</code> no.</li>
+    <li><strong>Conflictos de trigger.</strong> Si tienes dos skills con triggers parecidos, Claude puede activar el equivocado. Solución: invocarlo a mano (<em>"usa el skill X..."</em>).</li>
+    <li><strong>Skill que requiere datos externos.</strong> Algunos skills (como <a href="/s/precios-mx">precios-mx</a>) viven sobre DBs de cientos de MB que no caben en el repo. Vienen con versión preview y CTA para acceso completo.</li>
+  </ul>
+
+  <h2>Dónde seguir</h2>
+
+  <p>
+    Si esto es nuevo para ti, lo más sano es probar con un skill que tenga datos en el repo (NSE MX o Hábitos Digitales MX) antes de meterse con los que requieren bases externas. Te ahorra fricción y te da una primera victoria rápida.
+  </p>
+
+  <p>
+    Si quieres entender por qué hace diferencia que los skills sean en español y específicos para México y Latam (y no traducciones de skills gringos), te dejamos la siguiente lectura: <a href="/guia/skills-en-espanol-mexico-latam">Skills en español para MX/Latam: qué cambia</a>.
+  </p>
+
+  <p>
+    Y si ya estás listo para construir el tuyo propio, en <a href="/publica">/publica</a> hay tres vías para subirlo al tianguis.
+  </p>
+</GuideLayout>

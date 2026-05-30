@@ -1,0 +1,184 @@
+---
+import GuideLayout from "../../components/GuideLayout.astro";
+import { getGuide } from "../../data/guides";
+const guide = getGuide("skills-en-espanol-mexico-latam")!;
+---
+<GuideLayout guide={guide}>
+  <p>
+    Una pregunta razonable de quien recién llega al mundo de Claude Code: "<em>¿no me sirve usar un skill en inglés que ya esté hecho y traducir las respuestas?</em>". La respuesta corta es que para muchas tareas sí, pero para todo lo que toca <strong>datos locales, reglas regulatorias, contexto cultural o idioma como vehículo de tono</strong>, los skills genéricos en inglés se quedan cortos rápido.
+  </p>
+
+  <p>
+    En esta guía explicamos qué cambia cuando un skill se construye específicamente para realidades de México y Latinoamérica, por qué es muy difícil que un equipo basado en San Francisco lo haga por ti, y cómo el tianguis intenta resolver la dispersión que hay hoy.
+  </p>
+
+  <h2>El problema de traducir un skill: cuando el idioma es lo de menos</h2>
+
+  <p>
+    Imagina que descargas un skill genérico llamado <em>tax-validator</em>. Su README dice que valida números de identificación fiscal. Lo instalas, le pasas un RFC mexicano (porque te suena similar a un EIN gringo) y te responde con un error.
+  </p>
+
+  <p>
+    El RFC tiene una estructura que no encaja con la de un EIN. Tiene homoclave de tres caracteres calculada a partir del nombre legal. Existe en dos variantes — persona física (13 caracteres) y persona moral (12 caracteres). Y por si fuera poco, hay una lista paralela llamada <strong>69-B del SAT</strong> con RFCs identificados como facturadores de operaciones simuladas, que tu skill gringo nunca va a consultar.
+  </p>
+
+  <p>
+    El idioma no es el problema. El problema es que <strong>el contexto regulatorio, los formatos de datos, las instituciones, las fuentes de verdad y los riesgos legales son distintos</strong>. Y nada de eso lo va a tener resuelto un equipo que nunca facturó en México.
+  </p>
+
+  <h2>Cinco ejemplos donde un skill genérico falla</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Pregunta</th>
+        <th>Skill genérico en inglés</th>
+        <th>Skill local MX</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Valida este número fiscal: GACX950122ABC"</td>
+        <td>Formato no reconocido</td>
+        <td>RFC persona física válido, fecha 1995-01-22, dígito OK, sin alerta en lista 69-B</td>
+      </tr>
+      <tr>
+        <td>"¿Cuánto cuesta un kilo de tortilla en Iztapalapa?"</td>
+        <td>No tengo datos locales para esa zona</td>
+        <td>Mediana $24 MXN últimos 90 días, top 3 cadenas, variación vs CDMX</td>
+      </tr>
+      <tr>
+        <td>"¿Qué NSE es este hogar?"</td>
+        <td>Sugiere usar income quintiles US</td>
+        <td>NSE C+ regla AMAI 2024, percentil 73 nacional, perfil de gasto típico</td>
+      </tr>
+      <tr>
+        <td>"Genera mensaje WhatsApp para venta MX"</td>
+        <td>"Vale" / "que tal" / formalismos raros</td>
+        <td>"Sale", "¿le late?", tono norteño/centro según target, sin spanglish</td>
+      </tr>
+      <tr>
+        <td>"Genera Aviso de Privacidad para mi e-commerce"</td>
+        <td>Template GDPR / CCPA traducido</td>
+        <td>Plantilla LFPDPPP 2025 + checklist LFPC reforma suscripciones</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    En todos estos casos, el skill genérico no falla por mala calidad del modelo. Falla porque <strong>no tiene las fuentes, los formatos, ni las reglas que aplican aquí</strong>. Y traducir las respuestas al español no resuelve nada — el problema no era el output, era el input contextual.
+  </p>
+
+  <h2>Cuatro cosas que cambian cuando un skill es local</h2>
+
+  <h3>1. Idioma como vehículo de tono, no solo de palabras</h3>
+
+  <p>
+    Un skill que genera copy en español para México no es el mismo que uno para España o Argentina. El español que vende en CDMX no es el que vende en Madrid. La diferencia no está en el vocabulario evidente ("vale" vs "sale", "ordenador" vs "computadora") — está en el ritmo, en los formalismos, en las referencias culturales.
+  </p>
+
+  <p>
+    Un skill local mexicano sabe que decir "<em>te respondemos en 24 horas</em>" suena más confiable que "<em>respondemos en 24 horas</em>", porque el tú implícito es parte del contrato emocional de la venta. Un skill traducido del inglés probablemente no lo captura.
+  </p>
+
+  <h3>2. Datos verificables de fuentes públicas reales</h3>
+
+  <p>
+    PROFECO, INEGI, CONAPO, AMAI, SAT, RENAPO, STPS, INAI, Diputados, Banxico. Estas son las fuentes oficiales donde vive la data que un skill útil para MX tiene que consultar. Algunas son APIs amigables. Muchas son PDFs publicados en sitios torpes, Excel sin diccionario, o portales bloqueados desde fuera del país.
+  </p>
+
+  <p>
+    El trabajo de descargar, limpiar, consolidar y mantener actualizada esa data es <strong>real labor</strong> que no se hace automágicamente. Un equipo gringo tiene que tener una razón muy fuerte para invertir en eso, y casi nunca la tiene.
+  </p>
+
+  <h3>3. Cumplimiento regulatorio que sí aplica</h3>
+
+  <p>
+    LFPDPPP, LFPC, NOM-035, REPSE, LFPIORPI, Anexo 20 RMF, Lista 69-B SAT. Estas son las normas que aplican a un negocio mexicano y que ningún skill gringo conoce. Y muchas <strong>cambian regularmente</strong> — la reforma LFPC del 12 de diciembre de 2025 introdujo obligaciones nuevas para suscripciones recurrentes que un skill desactualizado ni siquiera registra.
+  </p>
+
+  <p>
+    Para una PyME, esto no es académico: un Aviso de Privacidad mal hecho atrae multas del INAI. Un proveedor en lista 69-B implica pérdida de deducibilidad. Una NOM-035 ignorada con 16+ empleados es sanción de la STPS.
+  </p>
+
+  <h3>4. Cultura y contexto social como input del análisis</h3>
+
+  <p>
+    Si tu skill clasifica clientes para campañas de marketing y usa segmentación por income quintiles US, tu output va a estar mal. Los niveles socioeconómicos en México son una construcción específica de AMAI (Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión Pública) que <strong>refleja realidades de gasto, acceso a bienes y servicios, y dinámica patrimonial</strong> que no caben en una traducción de income brackets gringos.
+  </p>
+
+  <p>
+    Lo mismo con focus groups, análisis de hábitos digitales, decisiones de canal publicitario. Las plataformas que dominan en MX no son las que dominan en US (Facebook sigue siendo gigante aquí mientras allá ha perdido peso; TikTok llegó tarde a US pero muy fuerte). Un skill que asume el contexto gringo da malas recomendaciones.
+  </p>
+
+  <h2>Por qué un equipo gringo no va a construir estos skills por ti</h2>
+
+  <p>
+    No es maldad ni desinterés. Es economía simple:
+  </p>
+
+  <ul>
+    <li><strong>El TAM (tamaño de mercado) está en inglés.</strong> Un skill enfocado en SaaS, e-commerce US, marketing US tiene una audiencia inmediata de millones. Uno de CFDI mexicano tiene una audiencia de cientos de miles, máximo.</li>
+    <li><strong>Los datos están aquí, no allá.</strong> Para construir <em>precios-mx</em> tienes que descargar PROFECO Quién es Quién en los Precios, entender el catálogo, limpiar nombres de cadenas, geolocalizar sucursales. Es trabajo de meses que no se hace si no facturas en MX.</li>
+    <li><strong>El cambio regulatorio es local.</strong> Para mantener un skill legal-pyme-mx vigente tienes que seguir reformas LFPC, RMF anual del SAT, NOMs de STPS, criterios de INAI. Eso requiere un equipo que viva el regulatorio MX, no que lo lea desde Twitter.</li>
+    <li><strong>El error tolerable es menor.</strong> Un Aviso de Privacidad mal hecho en US es lawsuit. En MX es multa del INAI más cancelación del e-commerce. Equivocarse cuesta caro y los stakes están con quien vive aquí.</li>
+  </ul>
+
+  <p>
+    En otras palabras: el incentivo para construir skills MX-locales lo tiene quien opera en MX. Por eso aquí los vamos a tener que armar nosotros.
+  </p>
+
+  <h2>Lo que ya está en el tianguis (con su gancho local)</h2>
+
+  <p>
+    Para que veas concretamente qué se ve cuando un skill se hace pensando en MX, los siete que están live:
+  </p>
+
+  <ul>
+    <li>
+      <strong><a href="/s/focus-group-mx">Focus Group MX</a></strong> — Panel de 14 personas sintéticas calibradas con NSE AMAI, distribución regional real, y voto 2024 representado proporcional al electorado. Un focus group gringo no captura ninguna de estas dimensiones.
+    </li>
+    <li>
+      <strong><a href="/s/precios-mx">Precios MX</a></strong> — Consolidación de PROFECO Quién es Quién en los Precios (10.5M de capturas, 2024-2026). Las queries geolocalizan sucursales y comparan entre cadenas mexicanas — no Walmart US sino las que hay aquí.
+    </li>
+    <li>
+      <strong><a href="/s/nse-mx">NSE MX</a></strong> — Implementación abierta de la regla AMAI 2024 oficial. Devuelve nivel + percentil + perfil de gasto. Calibrado contra ENIGH 2022 del INEGI.
+    </li>
+    <li>
+      <strong><a href="/s/demografia-mx">Demografía MX</a></strong> — Wrapper sobre la Conciliación Demográfica + Proyecciones de CONAPO. Granularidad anual × entidad × edad simple × sexo, 1950-2070. Útil para market sizing con datos oficiales.
+    </li>
+    <li>
+      <strong><a href="/s/mercado-local-mx">Mercado Local MX</a></strong> — Bundle que orquesta los anteriores para decir si vale la pena abrir un negocio físico en una ciudad MX. Combina demografía, NSE, precios y hábitos digitales en un semáforo de viabilidad.
+    </li>
+    <li>
+      <strong><a href="/s/habitos-digitales-mx">Hábitos Digitales MX</a></strong> — ENDUTIH 2024 INEGI + DataReportal Digital 2025 + AMVO + ENIF. Sabe qué plataforma usa tu target por edad, sexo y zona — y por qué no asumes que TikTok aplica para D rural.
+    </li>
+    <li>
+      <strong><a href="/s/legal-pyme-mx">Legal PyME MX</a></strong> — Corpus de SAT, INAI, STPS, Diputados, RENAPO. Valida RFC, CURP, lista 69-B, ISN por estado, obligaciones según giro. Cubre la reforma LFPC 2025 para suscripciones.
+    </li>
+  </ul>
+
+  <h2>El tianguis como respuesta al problema de dispersión</h2>
+
+  <p>
+    Hay skills en español para Claude Code por ahí. Hay personas que ya armaron uno para CFDI, otro para WhatsApp, otro para análisis SAT. El problema no es que no existan — es que están <strong>dispersos en repos individuales</strong>, sin un lugar centralizado donde encontrarlos, compararlos, leer documentación, decidir cuál instalar.
+  </p>
+
+  <p>
+    Eso es lo que el tianguis intenta resolver: ser el catálogo curado en español para MX/Latam, donde cualquiera puede explorar lo que hay, leer la documentación renderizada, copiar las instrucciones de instalación, y al mismo tiempo subir su propio skill para que la comunidad lo encuentre.
+  </p>
+
+  <p>
+    No es un marketplace cerrado ni un walled garden — cada skill vive en su repo público de GitHub. El tianguis simplemente indexa, organiza por categoría y tipo, y le da visibilidad a la comunidad hispanohablante de Claude Code.
+  </p>
+
+  <h2>Cómo empezar</h2>
+
+  <p>
+    Si nunca has instalado un skill de Claude Code, la lectura previa es <a href="/guia/que-es-skill-claude-code">¿Qué es un skill y cómo lo instalas?</a>. Si ya tienes el contexto, lo más sano es probar con uno que tenga datos en el repo (NSE MX o Hábitos Digitales MX) para sentirlo funcionar.
+  </p>
+
+  <p>
+    Y si construiste un skill MX/Latam que crees que vale la pena compartir, en <a href="/publica">/publica</a> hay tres vías para subirlo al catálogo — desde un formulario hasta un PR directo. La curaduría es manual y la respuesta es rápida.
+  </p>
+</GuideLayout>
