@@ -1,0 +1,59 @@
+# El Tianguis — Skills de Claude Code para MX/Latam
+
+> Portal/marketplace de skills, agentes, MCPs, comandos, hooks y bundles para
+> Claude Code en español. Curado para desarrolladores de México y Latinoamérica.
+> Sub-marca de Sistemia.
+
+## Qué es esto
+
+El Tianguis es el primer catálogo en español de extensiones para Claude Code.
+Cada "puesto" (skill/agente/MCP/etc.) vive en su propio repo público de GitHub
+— este sitio actúa como índice curado con README rendereado, badge de
+verificación, y categorización.
+
+Categoría destacada: **MX/Latam** — skills que tocan realidades locales
+(CFDI, SAT, Mercado Pago, WhatsApp Cloud MX, INEGI, CURP, OXXO, PROFECO,
+AMAI, CONAPO) que ningún equipo gringo va a construir.
+
+## Estructura del sitio
+
+- /                 — Home con destacados, filtro por tipo, categorías
+- /c/[slug]         — Listado por categoría (8 categorías)
+- /s/[slug]         — Detalle de cada puesto con README + instalación
+- /publica          — Cómo subir tu skill (3 vías: form / CLI / PR)
+- /empezar          — Quickstart para nuevos usuarios de Claude Code
+- /unsubscribe      — Darse de baja del boletín (token HMAC)
+- /admin            — Panel interno (no público)
+
+## Catálogo (live actualmente)
+
+- focus-group-mx (skill, paid tier) — 14 personas mexicanas sintéticas que
+  evalúan copy publicitario con FGMX-Score basado en research INEGI/AMAI/PROFECO
+- precios-mx (skill, paid tier) — 10.5M precios reales PROFECO 2024-2026
+- nse-mx (skill, free) — Clasificador NSE AMAI 2024 oficial
+- demografia-mx (skill, paid tier) — CONAPO 1950-2070, 5.9M registros
+- mercado-local-mx (bundle, paid tier) — Viabilidad de abrir negocio en MX
+- habitos-digitales-mx (skill, free) — ENDUTIH + DataReportal + AMVO + ENIF
+- legal-pyme-mx (skill, paid parcial) — Cumplimiento legal federal PyME
+
+## Stack técnico
+
+- Frontend: Astro 5 + Tailwind 4 + Svelte 5
+- Hosting: Cloudflare Pages (proyecto `sistemia-tianguis`)
+- Backend: Cloudflare Pages Functions + D1 (SQLite) + R2 (backups)
+- Email: Resend desde tianguis@sistemia.mx con DKIM/SPF verificados
+- Repo público: github.com/lahh1986/eltianguis
+- Repo de skills propios: github.com/lahh1986/sistemia-skills-mx
+
+## Cómo usar este sitio si eres agente
+
+- Para listar puestos: GET / o GET /c/[categoria]
+- Para detalle: GET /s/[slug] (incluye SKILL.md o SKILL-LITE.md rendereado)
+- Sitemap completo: https://eltianguis.sistemia.mx/sitemap-index.xml
+- Cada skill apunta a su repo GitHub donde vive el código real
+
+## Contacto
+
+- WhatsApp Sistemia: +52 55 2947 7307
+- Email: hola@sistemia.mx
+- GitHub Issues: github.com/lahh1986/eltianguis/issues

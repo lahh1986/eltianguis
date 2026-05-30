@@ -7,15 +7,18 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  ogImage?: string;
 }
 
 const {
   title = "El Tianguis — Skills de Claude Code para México y Latam",
   description = "El primer tianguis de skills, agentes y MCPs para Claude Code en español. Curado para devs de México y Latinoamérica. 100% gratis.",
   noindex = false,
+  ogImage = "/og/default.png",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageAbs = new URL(ogImage, Astro.site).toString();
 ---
 <!doctype html>
 <html lang="es-MX">
@@ -41,7 +44,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="es_MX" />
+    <meta property="og:image" content={ogImageAbs} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="El Tianguis" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbs} />
   </head>
   <body>
     <Header />
@@ -49,5 +59,73 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
       <slot />
     </main>
     <Footer />
+
+    <script is:inline>
+      (function () {
+        try {
+          var KEY = 'tianguis_sid';
+          var sid = sessionStorage.getItem(KEY);
+          if (!sid) {
+            sid = Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+            sessionStorage.setItem(KEY, sid);
+          }
+          var params = new URLSearchParams(window.location.search);
+          var utm = {
+            source: params.get('utm_source') || undefined,
+            medium: params.get('utm_medium') || undefined,
+            campaign: params.get('utm_campaign') || undefined,
+          };
+          var path = window.location.pathname;
+          var skillSlug = null;
+          var m = path.match(/^\/s\/([^\/]+)/);
+          if (m) skillSlug = m[1];
+
+          function send(type, extra) {
+            var body = {
+              type: type,
+              path: path,
+              skill_slug: skillSlug,
+              ref: document.referrer || null,
+              utm: utm,
+              session_id: sid,
+            };
+            if (extra && extra.skill_slug) body.skill_slug = extra.skill_slug;
+            try {
+              fetch('/api/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+                keepalive: true,
+              });
+            } catch (e) { /* swallow */ }
+          }
+
+          // Page view
+          send('page_view');
+
+          // Click delegation on [data-track]
+          document.addEventListener('click', function (e) {
+            var target = e.target;
+            while (target && target !== document.body) {
+              if (target.dataset && target.dataset.track) {
+                send(target.dataset.track, {
+                  skill_slug: target.dataset.skill || skillSlug,
+                });
+                break;
+              }
+              target = target.parentElement;
+            }
+          });
+
+          // Auto-track WhatsApp links
+          document.querySelectorAll('a[href*="wa.me/"]').forEach(function (a) {
+            a.addEventListener('click', function () {
+              var sk = a.getAttribute('data-skill') || skillSlug;
+              send('wa_click', { skill_slug: sk });
+            });
+          });
+        } catch (e) { /* never break the page */ }
+      })();
+    </script>
   </body>
 </html>

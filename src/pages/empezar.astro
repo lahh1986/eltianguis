@@ -1,0 +1,158 @@
+---
+import Base from "../layouts/Base.astro";
+import SkillCard from "../components/SkillCard.astro";
+import { featuredSkills } from "../data/skills";
+
+const featured = featuredSkills();
+---
+<Base
+  title="Empezar — El Tianguis"
+  description="Qué es un skill de Claude Code, cómo instalar tu primero en 3 minutos, y qué encontrar en el tianguis."
+>
+  <section class="wrap pt-20 pb-12 max-w-3xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-terracota)] mb-3">
+      Empezar
+    </div>
+    <h1 class="font-display text-5xl sm:text-6xl text-[color:var(--color-ink)] leading-[0.95]">
+      ¿Nuevo en Claude Code? <span class="editorial-underline">aquí va el atajo.</span>
+    </h1>
+    <p class="mt-5 text-lg text-[color:var(--color-ink-muted)] leading-relaxed">
+      En 3 minutos sabes qué es un skill, cómo instalas uno del tianguis, y cuál te conviene probar primero. Sin teoría innecesaria.
+    </p>
+  </section>
+
+  <section class="wrap pb-12 max-w-3xl">
+    <div class="card">
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+        Antes que nada
+      </div>
+      <h2 class="font-display text-2xl text-[color:var(--color-ink)]">¿Qué es Claude Code?</h2>
+      <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Claude Code es la CLI de Anthropic para trabajar con Claude desde la terminal. Le pides algo en lenguaje natural y ejecuta tareas en tu proyecto: lee archivos, escribe código, corre tests, hace git, llama APIs.
+      </p>
+      <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Si no lo tienes: <a href="https://docs.claude.com/en/docs/claude-code/quickstart" class="text-[color:var(--color-terracota)] underline">guía oficial de instalación</a>. ~5 minutos.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap pb-12 max-w-3xl">
+    <div class="card">
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+        Concepto clave
+      </div>
+      <h2 class="font-display text-2xl text-[color:var(--color-ink)]">¿Qué es un skill?</h2>
+      <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Un <strong class="text-[color:var(--color-ink)]">skill</strong> es un folder que Claude Code carga automáticamente cuando le hablas. Contiene instrucciones, datos y scripts que le dan superpoderes para una tarea específica.
+      </p>
+      <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Ejemplo: instalas <a href="/s/precios-mx" class="text-[color:var(--color-terracota)] underline">precios-mx</a>, le dices "¿cuánto cuesta el aceite Capullo en Guadalajara?", y Claude consulta automáticamente los precios reales PROFECO y te devuelve la respuesta con sucursales y fechas.
+      </p>
+      <p class="mt-3 text-[color:var(--color-ink-muted)] leading-relaxed">
+        Sin el skill: Claude no sabe nada de PROFECO ni de tu DuckDB local. Con el skill: lo activa solo cuando el contexto lo amerita.
+      </p>
+      <p class="mt-3 text-sm text-[color:var(--color-ink-soft)]">
+        En el tianguis también vas a encontrar <strong>agentes</strong> (sub-agentes especializados), <strong>MCPs</strong> (servidores externos), <strong>comandos</strong>, <strong>hooks</strong> y <strong>bundles</strong>. Todos se instalan parecido.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap pb-12 max-w-3xl">
+    <div class="card">
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+        En 3 pasos
+      </div>
+      <h2 class="font-display text-2xl text-[color:var(--color-ink)]">Cómo instalas un skill del tianguis</h2>
+
+      <ol class="mt-5 space-y-5">
+        <li class="flex gap-4">
+          <div class="font-display text-3xl text-[color:var(--color-terracota)] w-10 leading-none flex-shrink-0">1</div>
+          <div class="flex-1 min-w-0">
+            <div class="text-[color:var(--color-ink)] font-medium mb-1">Encuentra el skill que te late</div>
+            <p class="text-sm text-[color:var(--color-ink-muted)] mb-3">
+              Navega el catálogo o filtra por tipo. Cada puesto tiene su detalle, instrucciones y link al repo de GitHub.
+            </p>
+            <a href="/" class="text-sm text-[color:var(--color-terracota)] underline">Explorar el tianguis →</a>
+          </div>
+        </li>
+
+        <li class="flex gap-4">
+          <div class="font-display text-3xl text-[color:var(--color-terracota)] w-10 leading-none flex-shrink-0">2</div>
+          <div class="flex-1 min-w-0">
+            <div class="text-[color:var(--color-ink)] font-medium mb-1">Clona y copia a tu folder de Claude</div>
+            <pre class="mt-2 p-3 rounded-md bg-[color:var(--color-ink)] text-[color:var(--color-arena)] text-xs overflow-x-auto font-mono"><code>{`# Ejemplo con focus-group-mx
+git clone https://github.com/lahh1986/sistemia-skills-mx
+mkdir -p ~/.claude/skills
+cp -r sistemia-skills-mx/skills/focus-group-mx ~/.claude/skills/focus-group-mx`}</code></pre>
+          </div>
+        </li>
+
+        <li class="flex gap-4">
+          <div class="font-display text-3xl text-[color:var(--color-terracota)] w-10 leading-none flex-shrink-0">3</div>
+          <div class="flex-1 min-w-0">
+            <div class="text-[color:var(--color-ink)] font-medium mb-1">Reinicia Claude Code y úsalo</div>
+            <p class="text-sm text-[color:var(--color-ink-muted)] mb-3">
+              Cierra y abre Claude Code en tu proyecto. Para invocar el skill, escríbele lo que harías normalmente:
+            </p>
+            <pre class="p-3 rounded-md bg-[color:var(--color-ink)] text-[color:var(--color-arena)] text-xs overflow-x-auto font-mono"><code>{`Tú: "Evalúa este copy con focus-group-mx: 'Compra dos por uno este viernes'"
+Claude: [activa el skill, las personas responden con FGMX-Score]`}</code></pre>
+            <p class="mt-3 text-sm text-[color:var(--color-ink-soft)]">
+              Claude detecta cuándo te conviene activar el skill por los triggers definidos en cada SKILL.md. No tienes que invocarlo a mano siempre.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap pb-12 max-w-3xl">
+    <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-4">
+      Por dónde empezar
+    </div>
+    <h2 class="font-display text-3xl text-[color:var(--color-ink)] mb-3">3 puestos recomendados para tu primera prueba</h2>
+    <p class="text-[color:var(--color-ink-muted)] mb-6">
+      Los destacados del tianguis. Todos tienen versión preview gratis con README claro.
+    </p>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {featured.map((s) => <SkillCard skill={s} />)}
+    </div>
+  </section>
+
+  <section class="wrap pb-24 max-w-3xl">
+    <div class="card">
+      <div class="text-[10px] font-mono tracking-[0.18em] uppercase text-[color:var(--color-ink-soft)] mb-3">
+        Dudas comunes
+      </div>
+      <details class="mb-3 border-b border-[color:var(--color-border)] pb-3">
+        <summary class="font-medium text-[color:var(--color-ink)] cursor-pointer">¿Tengo que pagar?</summary>
+        <p class="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+          Todos los skills tienen versión preview gratis. Algunos viven sobre bases de datos grandes (precios reales, demografía oficial, corpus legal) que requieren acceso comercial — esos tienen un banner explícito con link a WhatsApp Sistemia.
+        </p>
+      </details>
+      <details class="mb-3 border-b border-[color:var(--color-border)] pb-3">
+        <summary class="font-medium text-[color:var(--color-ink)] cursor-pointer">¿Necesito saber programar?</summary>
+        <p class="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+          Para instalar: ejecutas 3 comandos en terminal. Para usar: hablas en lenguaje natural con Claude. No necesitas escribir código tú.
+        </p>
+      </details>
+      <details class="mb-3 border-b border-[color:var(--color-border)] pb-3">
+        <summary class="font-medium text-[color:var(--color-ink)] cursor-pointer">¿Mis datos están seguros?</summary>
+        <p class="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+          Los skills corren en tu máquina con Claude Code. El tianguis nada más cataloga; cada skill vive en su repo de GitHub. Tú decides qué instalas y qué datos le pasas.
+        </p>
+      </details>
+      <details class="mb-3 border-b border-[color:var(--color-border)] pb-3">
+        <summary class="font-medium text-[color:var(--color-ink)] cursor-pointer">¿Puedo subir un skill que yo hice?</summary>
+        <p class="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+          Sí, claro. Hay 3 vías documentadas en <a href="/publica" class="text-[color:var(--color-terracota)] underline">/publica</a> — desde "lleno un form" hasta "abro un PR".
+        </p>
+      </details>
+      <details>
+        <summary class="font-medium text-[color:var(--color-ink)] cursor-pointer">¿Qué pasa si me trabo?</summary>
+        <p class="mt-2 text-sm text-[color:var(--color-ink-muted)]">
+          Abre un <a href="https://github.com/lahh1986/eltianguis/issues/new" class="text-[color:var(--color-terracota)] underline">issue en el repo</a> o escríbenos a hola@sistemia.mx. Tratamos de responder en menos de 24 horas.
+        </p>
+      </details>
+    </div>
+  </section>
+</Base>
