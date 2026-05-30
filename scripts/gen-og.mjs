@@ -35,12 +35,12 @@ function escapeXml(s) {
 function homeSvg() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
-    <radialGradient id="blob1" cx="0%" cy="0%" r="60%">
-      <stop offset="0%" stop-color="${TERRACOTA}" stop-opacity="0.32"/>
+    <radialGradient id="blob1" cx="0%" cy="0%" r="55%">
+      <stop offset="0%" stop-color="${TERRACOTA}" stop-opacity="0.28"/>
       <stop offset="100%" stop-color="${TERRACOTA}" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="blob2" cx="100%" cy="100%" r="50%">
-      <stop offset="0%" stop-color="${ANIL}" stop-opacity="0.22"/>
+      <stop offset="0%" stop-color="${ANIL}" stop-opacity="0.18"/>
       <stop offset="100%" stop-color="${ANIL}" stop-opacity="0"/>
     </radialGradient>
   </defs>
@@ -48,31 +48,21 @@ function homeSvg() {
   <rect width="1200" height="630" fill="url(#blob1)"/>
   <rect width="1200" height="630" fill="url(#blob2)"/>
 
-  <g transform="translate(72,80)">
+  <g transform="translate(80,90)">
     <text font-family="Fraunces" font-size="40" font-weight="600" fill="${INK}" letter-spacing="-0.02em">El Tianguis</text>
-    <text x="248" y="-2" font-family="Inter" font-size="16" font-weight="500" fill="${INK_SOFT}" letter-spacing="2.5">POR SISTEMIA</text>
+    <text x="252" y="-2" font-family="Inter" font-size="16" font-weight="500" fill="${INK_SOFT}" letter-spacing="2.5">POR SISTEMIA</text>
   </g>
 
-  <g transform="translate(72,310)">
-    <text font-family="Inter" font-size="18" font-weight="600" fill="${TERRACOTA}" letter-spacing="2.5">SKILLS DE CLAUDE CODE · MX &amp; LATAM</text>
-  </g>
-
-  <g transform="translate(72,360)">
-    <text font-family="Fraunces" font-size="76" font-weight="600" fill="${INK}" letter-spacing="-0.025em">
-      <tspan x="0" dy="0">El primer tianguis de skills</tspan>
-      <tspan x="0" dy="80">para Claude Code en español.</tspan>
+  <g transform="translate(80,280)">
+    <text font-family="Fraunces" font-size="86" font-weight="600" fill="${INK}" letter-spacing="-0.025em">
+      <tspan x="0" dy="0">El primer tianguis</tspan>
+      <tspan x="0" dy="92">de skills para</tspan>
+      <tspan x="0" dy="92">Claude Code.</tspan>
     </text>
   </g>
 
-  <g transform="translate(72,540)">
-    <text font-family="Inter" font-size="22" font-weight="400" fill="${INK_MUTED}">7 skills · CFDI · SAT · PROFECO · INEGI · WhatsApp MX</text>
-  </g>
-
-  <g transform="translate(72,580)">
-    <rect x="0" y="0" width="180" height="34" rx="17" fill="${TERRACOTA}"/>
-    <text x="90" y="22" font-family="Inter" font-size="13" font-weight="600" fill="${ARENA}" text-anchor="middle" letter-spacing="2">BETA ABIERTA · 2026</text>
-    <rect x="195" y="0" width="135" height="34" rx="17" fill="${CANVAS_WARM}" stroke="${INK_MUTED}"/>
-    <text x="262.5" y="22" font-family="Inter" font-size="13" font-weight="600" fill="${INK_MUTED}" text-anchor="middle" letter-spacing="2">100% GRATIS</text>
+  <g transform="translate(80,570)">
+    <text font-family="Inter" font-size="20" font-weight="500" fill="${TERRACOTA}" letter-spacing="2.5">EN ESPAÑOL · MX &amp; LATAM</text>
   </g>
 </svg>`;
 }
