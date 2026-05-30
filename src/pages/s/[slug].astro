@@ -18,6 +18,10 @@ const ogImage = `/og/${skill.slug}.png`;
 
 const repoName = skill.repo ? skill.repo.replace("https://github.com/", "").split("/")[1] : "";
 const skillPath = skill.installPath ?? skill.slug;
+const branch = skill.branch ?? "main";
+const githubFolderUrl = skill.repo && skill.installPath
+  ? `${skill.repo}/tree/${branch}/${skill.installPath}`
+  : skill.repo;
 const cloneCmd = skill.repo ? `git clone ${skill.repo}` : "";
 const copyCmd = skill.repo
   ? `mkdir -p ~/.claude/skills\ncp -r ${repoName}/${skillPath} ~/.claude/skills/${skill.slug}`
@@ -55,7 +59,7 @@ const copyCmd = skill.repo
     {skill.repo ? (
       <>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href={skill.repo} data-track="github_click" data-skill={skill.slug} class="btn btn-primary">
+          <a href={githubFolderUrl} data-track="github_click" data-skill={skill.slug} class="btn btn-primary">
             Ver en GitHub ↗
           </a>
           <a href="#instalar" class="btn btn-secondary">Cómo instalar</a>
