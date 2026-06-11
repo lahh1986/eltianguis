@@ -4,6 +4,55 @@ Detalle por sesión. Headline más reciente vive en `CLAUDE.md` §11.
 
 ---
 
+## 2026-06-10 (noche) — Skill `mexicanismos-mx` agregado al catálogo
+
+**Trigger:** Pregunta de Luis sobre construir skill de español MX por región usando la base de datos del corpus + research adicional. Discusión sobre frontera con `locale-mx` (que cubre reglas duras tú/ustedes/computadora) — el nuevo va un nivel más profundo: qué palabra MX según target.
+
+**Research key findings (subagent):**
+- DEM (Colmex) tiene CC BY-NC-ND → NO podemos shipar glosas verbatim, sólo citar como oracle
+- DM (Academia Mexicana de la Lengua) está paywall → mismo approach
+- 33,000 entradas en DEM pero la mayoría NO tienen marca regional → curaduría manual obligatoria
+- Recomendación: 7 zonas dialectales (NO 5) — Yucatán justifica zona separada con respaldo académico
+- Riesgos identificados: licencia DEM, caricatura regional, clasismo encubierto, decay de slang GenZ, sesgo CDMX en fuentes
+
+**Construido:**
+- Skill `mexicanismos-mx` v0.1 en `~/sistemia-skills-mx/skills/mexicanismos-mx/`:
+  - `SKILL.md` — workflow + decisión multi-zona + frontera con locale-mx + DEM licensing claro + paso 5 cita académica
+  - `README.md`
+  - `data/regiones.json` — 7 zonas (Lope Blanch adaptado + Yucatán separado) + casos multi-zona (regio en CDMX, chilango con padres yucatecos, etc.)
+  - `data/mexicanismos.json` — 110 palabras curadas por Sistemia, schema con region/registro/generación/NSE/dem_url/last_validated
+  - `data/falsos_amigos.json` — 50 palabras: 13 intra-MX (chichí, chaqueta, morro, padre, papa, bolillo, jale, pisto, etc.) + 7 cross-país (popote, tuna, raza, coger, concha, ahorita, pedir el favor)
+  - `data/registro_clasismo.json` — guía editorial NO prohibitiva sobre carga social (naco/fresa, racialización, género/servicio, regional burla, vulgares usables). Anclado en Federico Navarrete "Alfabeto del racismo mexicano"
+  - `data/genz_2026.json` — 25 entries de slang juvenil con decay_risk + last_validated (gpi, funar, x, brainrot, aesthetic, delulu, etc.)
+  - `examples/landing-dental-regio-vs-cdmx.md` — caso end-to-end mostrando adaptación regional + caricatura riesgosa
+
+**Decisiones editoriales clave:**
+- DEM como oracle, NO fuente. Curaduría propia con definiciones nuestras + link a DEM para autoridad académica
+- Frontera explícita con locale-mx (reglas duras vs decisión regional)
+- Yucatán zona separada (mare, bomba, chichí=abuela) con flag de "no folklorizar"
+- Carga clasista NO como lista prohibitiva — como guía CUÁNDO sí/no
+- Slang Gen Z marcado con decay_risk para advertir caducidad <12 meses
+
+**Agregado al catálogo eltianguis:**
+- Slug `mexicanismos-mx` · type skill · status live · featured true · mxLocal true
+- Categoría mx-latam · tags [español, regionalismos, modismos, Monterrey, CDMX, Yucatán, Guadalajara, clasismo, Gen Z, MX-local]
+- paidUpgrade → WhatsApp Sistemia para revisión humana + 3-5 variantes A/B
+
+**Deploy:** OK · página live en `https://eltianguis.sistemia.mx/s/mexicanismos-mx/` (HTTP 200).
+
+**Actualizado en repo skills:**
+- `~/sistemia-skills-mx/MARKETPLACE.md` — skill #7 nuevo (mexicanismos-mx), renumerados 8-11
+- `~/sistemia-skills-mx/CLAUDE.md` — estado (skill #13)
+
+**Pendiente (siguiente sesión):**
+- Push del repo `lahh1986/sistemia-skills-mx` con mexicanismos-mx
+- Push de `lahh1986/eltianguis` con catálogo actualizado
+- Re-validar `genz_2026.json` en junio 2027 (decay alto)
+- Considerar v1.1: agregar zonas con curaduría más fina (Veracruz N/S, costa vs sierra Oaxaca)
+- Considerar sub-skill `mexicanismos-mx-detector`: dado texto cualquiera, probabilidad de zona
+
+---
+
 ## 2026-06-10 (tarde) — Skill `payments-ar` agregado al catálogo
 
 **Trigger:** Después de lanzar `payments-mx` por la mañana, decidimos continuar la serie `payments-{cc}` LATAM. Argentina por costo/beneficio (Mercado Pago SDK reusable + cuotas culturales únicas + cepo cambiario + 5 días post-derogación Ahora 12).

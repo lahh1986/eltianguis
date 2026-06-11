@@ -297,6 +297,32 @@
     "addedAt": "2026-06-10"
   },
   {
+    "slug": "mexicanismos-mx",
+    "type": "skill",
+    "name": "Mexicanismos MX",
+    "tagline": "Si tu copy en español MX suena chilango por default cuando tu cliente es regio (o yucateco, o tapatío), este skill te lo arregla sin caricatura.",
+    "description": "Va un nivel más profundo que locale-mx: dada la regla 'es español de México', elige QUÉ palabras MX según target. 7 zonas dialectales (Centro/CDMX, Noreste/Regio, Noroeste/Frontera, Norte-Bajío, Occidente/Tapatío, Sur-Sureste costa, Yucatán separado — tiene justificación académica), 110 mexicanismos curados con scoring por región/registro/generación/NSE, 50 falsos amigos intra-MX y cross-Latam (chichí, chaqueta, popote, concha, coger), guía editorial de carga clasista/racial (naco, fresa, eufemismos racializados) anclada en Federico Navarrete, y 25 entries de slang Gen Z 2026 con decay_risk para advertir caducidad. Devuelve análisis línea por línea + 3 versiones alternativas (más natural / segura cross-MX / saturada de marca regional). Las definiciones son curaduría propia — DEM/Colmex es CC BY-NC-ND, citamos como oracle académico sin copiar.",
+    "author": "Sistemia",
+    "authorUrl": "https://sistemia.mx",
+    "category": "mx-latam",
+    "tags": ["español", "regionalismos", "modismos", "Monterrey", "CDMX", "Yucatán", "Guadalajara", "clasismo", "Gen Z", "MX-local"],
+    "repo": "https://github.com/lahh1986/sistemia-skills-mx",
+    "installPath": "skills/mexicanismos-mx",
+    "readmePath": "skills/mexicanismos-mx/SKILL.md",
+    "branch": "main",
+    "paidUpgrade": {
+      "url": "https://wa.me/525529477307?text=Hola%2C%20me%20interesa%20revisi%C3%B3n%20de%20copy%20MX%20regional%20%E2%80%94%20vengo%20del%20tianguis%20%2F%20mexicanismos-mx.",
+      "label": "Revisión humana + adaptación regional",
+      "description": "Curaduría humana de tu copy por región específica + 3-5 variantes A/B testables + revisión de carga clasista por copywriter mexicano + entrega en 48h."
+    },
+    "downloads": 0,
+    "stars": 0,
+    "verified": true,
+    "mxLocal": true,
+    "featured": true,
+    "addedAt": "2026-06-10"
+  },
+  {
     "slug": "cfdi-validator",
     "type": "mcp",
     "name": "CFDI Validator",
